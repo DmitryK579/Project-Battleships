@@ -5,9 +5,11 @@ using UnityEngine.InputSystem;
 
 public class CameraHandler : MonoBehaviour
 {
+    [SerializeField] public Transform anchorObject;
+    [Header("Camera settings")]
     [SerializeField] private float zoomSpeed = 20f;
     [SerializeField] private float zoomLerpSpeed = 10f;
-    [SerializeField] private float maxZoom = 250f;
+    [SerializeField] private float maxZoom = 600f;
     [SerializeField] private float minZoom = 20f;
 
     private PlayerInputActions playerInputActions;
@@ -26,14 +28,19 @@ public class CameraHandler : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
+        TargetToAnchor();
         HandleZoom();
     }
 
+    private void TargetToAnchor()
+    {
+        cam.Target.TrackingTarget.transform.position = anchorObject.position;
+    }
     private void HandleZoom()
     {
         float zoomInput = playerInputActions.Camera.Zoom.ReadValue<float>();
 
-        targetZoom += zoomSpeed * zoomInput;
+        targetZoom += (zoomSpeed * zoomInput);
         targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
         cam.Lens.OrthographicSize = Mathf.Lerp(cam.Lens.OrthographicSize, targetZoom, Time.deltaTime * zoomLerpSpeed);
 	}
