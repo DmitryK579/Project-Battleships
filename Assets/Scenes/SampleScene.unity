@@ -617,6 +617,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1712779719 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 694015015930602380, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+  m_PrefabInstance: {fileID: 1575233997412907363}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2089018625
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,10 +742,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19824931b5269744b9cb4f725d61228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraHandler
-  camera: {fileID: 0}
-  zoomFactor: 1
-  maxZoom: 200
-  minZoom: 15
+  anchorObject: {fileID: 1712779719}
+  zoomSpeed: 20
+  zoomLerpSpeed: 10
+  maxZoom: 600
+  minZoom: 20
 --- !u!1001 &1575233997412907363
 PrefabInstance:
   m_ObjectHideFlags: 0
