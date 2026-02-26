@@ -21,6 +21,7 @@ public class TurretHandler : MonoBehaviour
     [SerializeField] private LineRenderer aimLine;
 
 	private Vector3 targetCoordinates;
+	private Vector3 turretAim = Vector3.zero;
 	private bool drawLineToTarget = true;
 
 	private const float turretDefaultAngle = 0;
@@ -48,15 +49,15 @@ public class TurretHandler : MonoBehaviour
 
 	private void DrawLine()
 	{
+		Vector3 initialPosition = transform.position;
+		Vector3 targetPosition = targetCoordinates;
+		float lineLength = Mathf.Clamp(Vector2.Distance(initialPosition, targetPosition), minRange, maxRange);
+		turretAim.x = initialPosition.x + lineLength * -Mathf.Sin(transform.rotation.eulerAngles.z * (Mathf.PI / 180f));
+		turretAim.y = initialPosition.y + lineLength * Mathf.Cos(transform.rotation.eulerAngles.z * (Mathf.PI / 180f));
+
 		if (drawLineToTarget == true)
 		{
 			aimLine.enabled = true;
-			Vector3 initialPosition = transform.position;
-			Vector3 targetPosition = targetCoordinates;
-			float lineLength = Mathf.Clamp(Vector2.Distance(initialPosition, targetPosition), minRange, maxRange);
-			float turretAimX = initialPosition.x + lineLength * -Mathf.Sin(transform.rotation.eulerAngles.z * (Mathf.PI / 180f));
-			float turretAimY = initialPosition.y + lineLength * Mathf.Cos(transform.rotation.eulerAngles.z * (Mathf.PI / 180f));
-			Vector3 turretAim = new Vector3(turretAimX, turretAimY, 0);
 			aimLine.SetPosition(0, initialPosition);
 			aimLine.SetPosition(1, turretAim);
 			//Debug.Log("IP: " + initialPosition);
@@ -146,13 +147,13 @@ public class TurretHandler : MonoBehaviour
 
 	private void Shoot(object sender, EventArgs e)
 	{
-		float distanceToTarget = Vector3.Distance(transform.position, targetCoordinates);
+		float distanceToTarget = Vector3.Distance(transform.position, turretAim);
 		float dispersionFactor = distanceToTarget / maxRange;
 		float dispersion = Mathf.Clamp((maxDispersion * dispersionFactor), minDispersion, maxDispersion);
 
 		foreach (var spawner in shellSpawners)
 		{
-			Vector3 modifiedTargetCoordinates = targetCoordinates;
+			Vector3 modifiedTargetCoordinates = turretAim;
 			modifiedTargetCoordinates.x = modifiedTargetCoordinates.x + Random.Range(-dispersion, dispersion);
 			modifiedTargetCoordinates.y = modifiedTargetCoordinates.y + Random.Range(-dispersion, dispersion);
 
