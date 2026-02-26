@@ -256,6 +256,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5226780855545785384}
+  - component: {fileID: 7882835707977162160}
   m_Layer: 0
   m_Name: BattleshipShell
   m_TagString: Untagged
@@ -280,3 +281,16 @@ Transform:
   - {fileID: 2809130510379603460}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7882835707977162160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8046911100106498915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 752b192f2d35acb4c809aa5cca7d515d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Shell
+  moveSpeed: 10

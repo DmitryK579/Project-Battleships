@@ -146,7 +146,9 @@ public class TurretHandler : MonoBehaviour
 	{
 		foreach (var spawner in shellSpawners)
 		{
-			Instantiate(shellPrefab, spawner.transform.position, this.transform.rotation);
+			GameObject shell = Instantiate(shellPrefab, spawner.transform.position, this.transform.rotation);
+			Shell shellScript = shell.GetComponent<Shell>();
+			shellScript.SetTargetCoordinates(targetCoordinates);
 		}
 	}
 }
