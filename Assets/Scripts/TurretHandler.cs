@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TurretHandler : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class TurretHandler : MonoBehaviour
 	[SerializeField] private bool isPrimaryTurret = true;
 	[SerializeField] private float rotationFactor = 1.0f;
     [SerializeField] private float maxRotationAngle = 1.0f;
+    [SerializeField] private float maxRange = 600.0f;
+    [SerializeField] private float minRange = 30.0f;
+    [SerializeField] private float maxDispersion = 10.0f;
+    [SerializeField] private float minDispersion = 1.0f;
     [SerializeField] private LineRenderer aimLine;
 
 	private Vector3 targetCoordinates;
@@ -48,10 +53,7 @@ public class TurretHandler : MonoBehaviour
 			aimLine.enabled = true;
 			Vector3 initialPosition = transform.position;
 			Vector3 targetPosition = targetCoordinates;
-			//Vector3 frontVectorToTarget = (targetCoordinates - transform.position).normalized;
-			float lineMax = 200;
-			float lineLength = Mathf.Clamp(Vector2.Distance(initialPosition, targetPosition), 0, lineMax);
-			//targetPosition = initialPosition + (frontVectorToTarget * lineLength);
+			float lineLength = Mathf.Clamp(Vector2.Distance(initialPosition, targetPosition), minRange, maxRange);
 			float turretAimX = initialPosition.x + lineLength * -Mathf.Sin(transform.rotation.eulerAngles.z * (Mathf.PI / 180f));
 			float turretAimY = initialPosition.y + lineLength * Mathf.Cos(transform.rotation.eulerAngles.z * (Mathf.PI / 180f));
 			Vector3 turretAim = new Vector3(turretAimX, turretAimY, 0);
@@ -144,11 +146,19 @@ public class TurretHandler : MonoBehaviour
 
 	private void Shoot(object sender, EventArgs e)
 	{
+		float distanceToTarget = Vector3.Distance(transform.position, targetCoordinates);
+		float dispersionFactor = distanceToTarget / maxRange;
+		float dispersion = Mathf.Clamp((maxDispersion * dispersionFactor), minDispersion, maxDispersion);
+
 		foreach (var spawner in shellSpawners)
 		{
+			Vector3 modifiedTargetCoordinates = targetCoordinates;
+			modifiedTargetCoordinates.x = modifiedTargetCoordinates.x + Random.Range(-dispersion, dispersion);
+			modifiedTargetCoordinates.y = modifiedTargetCoordinates.y + Random.Range(-dispersion, dispersion);
+
 			GameObject shell = Instantiate(shellPrefab, spawner.transform.position, this.transform.rotation);
 			Shell shellScript = shell.GetComponent<Shell>();
-			shellScript.SetTargetCoordinates(targetCoordinates);
+			shellScript.SetTargetCoordinates(modifiedTargetCoordinates);
 		}
 	}
 }

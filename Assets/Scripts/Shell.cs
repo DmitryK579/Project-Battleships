@@ -21,7 +21,6 @@ public class Shell : MonoBehaviour
         float distanceToTarget = Vector3.Distance(transform.position, targetCoordinates);
         if (distanceToTarget < distanceThreshold || distanceToTarget > previousDistanceToTarget)
         {
-            transform.position = targetCoordinates;
             Destroy(gameObject);
         }
 
@@ -31,5 +30,12 @@ public class Shell : MonoBehaviour
     public void SetTargetCoordinates(Vector3 coordinates)
     {
         targetCoordinates = coordinates;
-    }
+        RotateToTargetCoordinates();
+	}
+
+    private void RotateToTargetCoordinates()
+    {
+		Vector3 direction = targetCoordinates - transform.position;
+		transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+	}
 }

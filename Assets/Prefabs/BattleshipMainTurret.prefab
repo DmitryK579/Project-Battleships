@@ -89,6 +89,10 @@ MonoBehaviour:
   isPrimaryTurret: 1
   rotationFactor: 25
   maxRotationAngle: 270
+  maxRange: 600
+  minRange: 10
+  maxDispersion: 20
+  minDispersion: 3
   aimLine: {fileID: 6982362767274672012}
 --- !u!120 &6982362767274672012
 LineRenderer:
