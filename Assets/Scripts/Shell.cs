@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Shell : MonoBehaviour
 {
+    [SerializeField] GameObject splashParticlesPrefab;
+    [SerializeField] GameObject explosionParticlesPrefab;
     [SerializeField] private float moveSpeed = 10.0f;
     private Vector3 targetCoordinates;
     private float previousDistanceToTarget;
@@ -21,6 +23,8 @@ public class Shell : MonoBehaviour
         float distanceToTarget = Vector3.Distance(transform.position, targetCoordinates);
         if (distanceToTarget < distanceThreshold || distanceToTarget > previousDistanceToTarget)
         {
+            this.transform.position = targetCoordinates;
+            Instantiate(splashParticlesPrefab, this.transform.position, this.transform.rotation);
             Destroy(gameObject);
         }
 

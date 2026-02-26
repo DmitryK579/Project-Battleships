@@ -803,6 +803,10 @@ PrefabInstance:
       propertyPath: turretController
       value: 
       objectReference: {fileID: 955083057}
+    - target: {fileID: 496987185285420966, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 694015015930602380, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
