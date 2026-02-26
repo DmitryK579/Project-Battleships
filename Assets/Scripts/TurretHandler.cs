@@ -1,3 +1,6 @@
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TurretHandler : MonoBehaviour
@@ -5,6 +8,8 @@ public class TurretHandler : MonoBehaviour
 	[Header("Scripts")]
 	[SerializeField] private TurretController turretController;
 	[Header("Turret settings")]
+	[SerializeField] private List<Transform> shellSpawners;
+	[SerializeField] private GameObject shellPrefab;
 	[SerializeField] private bool isPrimaryTurret = true;
 	[SerializeField] private float rotationFactor = 1.0f;
     [SerializeField] private float maxRotationAngle = 1.0f;
@@ -20,21 +25,23 @@ public class TurretHandler : MonoBehaviour
 	private float angleFromLimitToCenter;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
-	void Start()
+	private void Start()
     {
 		leftAngleLimit = turretDefaultAngle + maxRotationAngle / 2;
 		rightAngleLimit = turretDefaultAngle - maxRotationAngle / 2;
 		angleFromLimitToCenter = (360 - maxRotationAngle) / 2;
+
+		turretController.OnShoot += Shoot;
 	}
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
 		RotateTurret();
 		DrawLine();
 	}
 
-	void DrawLine()
+	private void DrawLine()
 	{
 		if (drawLineToTarget == true)
 		{
@@ -59,7 +66,7 @@ public class TurretHandler : MonoBehaviour
 		}
 	}
 
-	void RotateTurret()
+	private void RotateTurret()
 	{
 		targetCoordinates = turretController.GetTargetCoordinates();
 
@@ -108,7 +115,7 @@ public class TurretHandler : MonoBehaviour
 			}
 		}
 	}
-	void RotateLeft()
+	private void RotateLeft()
 	{
 		transform.Rotate(0.0f, 0.0f, rotationFactor * Time.deltaTime);
 		if (maxRotationAngle != 360)
@@ -121,7 +128,7 @@ public class TurretHandler : MonoBehaviour
 			}
 		}
 	}
-	void RotateRight()
+	private void RotateRight()
 	{
 		transform.Rotate(0.0f, 0.0f, -rotationFactor * Time.deltaTime);
 		if (maxRotationAngle != 360)
@@ -135,4 +142,11 @@ public class TurretHandler : MonoBehaviour
 		}
 	}
 
+	private void Shoot(object sender, EventArgs e)
+	{
+		foreach (var spawner in shellSpawners)
+		{
+			Instantiate(shellPrefab, spawner.transform.position, this.transform.rotation);
+		}
+	}
 }
