@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2809130510379603460}
   - component: {fileID: 3200463659003333947}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SmokeTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,9 +79,9 @@ TrailRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 98
   m_MaskInteraction: 0
-  m_Time: 3
+  m_Time: 1
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -138,7 +138,7 @@ TrailRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 0.2
+  m_MinVertexDistance: 1
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
@@ -153,8 +153,9 @@ GameObject:
   - component: {fileID: 8181147133161801933}
   - component: {fileID: 156301143414523230}
   - component: {fileID: 3754566318383788833}
-  m_Layer: 0
-  m_Name: Sprite
+  - component: {fileID: 5253175433023038548}
+  m_Layer: 8
+  m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -235,7 +236,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2625406059805260970, guid: 7137950f5b419e346b8a977df664f84a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -247,6 +248,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &5253175433023038548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397202565670987862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b346f1f2e3fd38a4bbed35788b4fb4de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShellVisual
+  splashParticlesPrefab: {fileID: 4911990897468123699, guid: 51767b43a6d94e348ac003a0fd92ccdd, type: 3}
+  explosionParticlesPrefab: {fileID: 4880858755080305173, guid: 50b5461d60964fe4aa8051527ec64b3e, type: 3}
 --- !u!1 &8046911100106498915
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +272,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5226780855545785384}
   - component: {fileID: 7882835707977162160}
-  m_Layer: 0
+  - component: {fileID: 5779482722074312484}
+  m_Layer: 8
   m_Name: BattleshipShell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,6 +309,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 752b192f2d35acb4c809aa5cca7d515d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shell
-  splashParticlesPrefab: {fileID: 4911990897468123699, guid: 51767b43a6d94e348ac003a0fd92ccdd, type: 3}
-  explosionParticlesPrefab: {fileID: 4880858755080305173, guid: 50b5461d60964fe4aa8051527ec64b3e, type: 3}
+  damage: 30
   moveSpeed: 10
+--- !u!61 &5779482722074312484
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8046911100106498915}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0

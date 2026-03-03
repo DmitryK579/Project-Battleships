@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1162682159662063376}
   - component: {fileID: 775532817656206884}
   - component: {fileID: 1856512548968319908}
+  - component: {fileID: -1487976123717738907}
   m_Layer: 0
   m_Name: BBShellSplash
   m_TagString: Untagged
@@ -4837,3 +4838,16 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!210 &-1487976123717738907
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4911990897468123699}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 99
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0

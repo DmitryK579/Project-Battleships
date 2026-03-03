@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8006338217130897728}
   - component: {fileID: 5115099311630502753}
   - component: {fileID: 1934223992823426770}
+  - component: {fileID: -931868336117837939}
   m_Layer: 0
   m_Name: BBShellExplosion
   m_TagString: Untagged
@@ -4837,3 +4838,16 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!210 &-931868336117837939
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4880858755080305173}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 100
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
