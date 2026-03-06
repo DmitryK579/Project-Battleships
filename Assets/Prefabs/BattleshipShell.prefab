@@ -311,6 +311,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Shell
   damage: 30
   moveSpeed: 10
+  maxHeight: 20
+  armingTimeS: 1.5
 --- !u!61 &5779482722074312484
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -355,5 +357,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.28, y: 0.28}
   m_EdgeRadius: 0

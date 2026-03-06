@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,11 +7,15 @@ public class Shell : MonoBehaviour
 {
     [SerializeField] private float damage = 30.0f;
     [SerializeField] private float moveSpeed = 10.0f;
+    [SerializeField] private float maxHeight = 20.0f;
+	[SerializeField] private float armingTimeS = 3.0f; 
     private BoxCollider2D boxCollider;
+	private Vector3 initialCoordinates;
     private Vector3 targetCoordinates;
+	private float travelProgress = 0.0f;
     private float previousDistanceToTarget;
-    private float reachedDistanceThreshold = 0.1f;
-    private float collisionDistanceThreshold = 5.5f;
+    private float distanceToTravel;
+	private float armingTimer = 0.0f;
 	private bool collided = false;
 	private bool reachedTarget = false;
 
@@ -21,7 +26,9 @@ public class Shell : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        previousDistanceToTarget = Vector3.Distance(transform.position, targetCoordinates);
+		initialCoordinates = transform.position;
+		distanceToTravel = Vector3.Distance(initialCoordinates, targetCoordinates);
+		previousDistanceToTarget = distanceToTravel;
 		boxCollider = GetComponent<BoxCollider2D>();
 		boxCollider.enabled = false;
     }
@@ -29,23 +36,20 @@ public class Shell : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+		ArmShell();
 		Move();
+
 	}
 
 	private void Move()
 	{
 		if (!reachedTarget && !collided)
 		{
-			transform.position += transform.up * moveSpeed * Time.deltaTime;
+			travelProgress += (moveSpeed * Time.deltaTime) / Vector3.Distance(initialCoordinates, targetCoordinates);
+			transform.position = Vector3.Lerp(initialCoordinates, targetCoordinates, travelProgress);
+			float height = Mathf.Sin(travelProgress * Mathf.PI) * (maxHeight * (distanceToTravel/600.0f));
 
-			float distanceToTarget = Vector3.Distance(transform.position, targetCoordinates);
-
-			if (distanceToTarget < collisionDistanceThreshold && !boxCollider.enabled)
-			{
-				boxCollider.enabled = true;
-			}
-
-			if (distanceToTarget < reachedDistanceThreshold || distanceToTarget > previousDistanceToTarget)
+			if (travelProgress >= 1)
 			{
 				this.transform.position = targetCoordinates;
 				reachedTarget = true;
@@ -53,8 +57,18 @@ public class Shell : MonoBehaviour
 				float destructionTimer = 2.0f;
 				Destroy(gameObject, destructionTimer);
 			}
-
-			previousDistanceToTarget = distanceToTarget;
+		}
+	}
+	//Wait until set time passed before activating collisions to prevent shells from colliding with parent ship
+	private void ArmShell()
+	{
+		if (armingTimer < armingTimeS)
+		{
+			armingTimer += Time.deltaTime;
+			if (armingTimer >= armingTimeS)
+			{
+				boxCollider.enabled = true;
+			}
 		}
 	}
 	private void OnTriggerEnter2D(Collider2D collision)
