@@ -9,15 +9,8 @@ public class TurretHandler : MonoBehaviour
 	[Header("Scripts")]
 	[SerializeField] private TurretController turretController;
 	[Header("Turret settings")]
+	[SerializeField] private TurretScriptableObject turret;
 	[SerializeField] private List<Transform> shellSpawners;
-	[SerializeField] private GameObject shellPrefab;
-	[SerializeField] private bool isPrimaryTurret = true;
-	[SerializeField] private float rotationFactor = 1.0f;
-    [SerializeField] private float maxRotationAngle = 1.0f;
-    [SerializeField] private float maxRange = 600.0f;
-    [SerializeField] private float minRange = 30.0f;
-    [SerializeField] private float maxDispersion = 10.0f;
-    [SerializeField] private float minDispersion = 1.0f;
     [SerializeField] private LineRenderer aimLine;
 
 	private Vector3 targetCoordinates;
@@ -33,9 +26,9 @@ public class TurretHandler : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	private void Start()
     {
-		leftAngleLimit = turretDefaultAngle + maxRotationAngle / 2;
-		rightAngleLimit = turretDefaultAngle - maxRotationAngle / 2;
-		angleFromLimitToCenter = (360 - maxRotationAngle) / 2;
+		leftAngleLimit = turretDefaultAngle + turret.MaxRotationAngle / 2;
+		rightAngleLimit = turretDefaultAngle - turret.MaxRotationAngle / 2;
+		angleFromLimitToCenter = (360 - turret.MaxRotationAngle) / 2;
 
 		turretController.OnShoot += Shoot;
 	}
@@ -51,7 +44,7 @@ public class TurretHandler : MonoBehaviour
 	{
 		Vector3 initialPosition = transform.position;
 		Vector3 targetPosition = targetCoordinates;
-		float lineLength = Mathf.Clamp(Vector2.Distance(initialPosition, targetPosition), minRange, maxRange);
+		float lineLength = Mathf.Clamp(Vector2.Distance(initialPosition, targetPosition), turret.MinRange, turret.MaxRange);
 		turretAim.x = initialPosition.x + lineLength * -Mathf.Sin(transform.rotation.eulerAngles.z * (Mathf.PI / 180f));
 		turretAim.y = initialPosition.y + lineLength * Mathf.Cos(transform.rotation.eulerAngles.z * (Mathf.PI / 180f));
 
@@ -76,7 +69,7 @@ public class TurretHandler : MonoBehaviour
 		Vector3 frontVectorToTarget = (targetCoordinates - transform.position).normalized;
 		float angleToTarget = -(Vector3.SignedAngle(frontVectorToTarget, transform.up, new Vector3(0, 0, 1)));
 
-		if (maxRotationAngle != 360)
+		if (turret.MaxRotationAngle != 360)
 		{
 			if (angleToTarget > 0)
 			{
@@ -120,10 +113,10 @@ public class TurretHandler : MonoBehaviour
 	}
 	private void RotateLeft()
 	{
-		transform.Rotate(0.0f, 0.0f, rotationFactor * Time.deltaTime);
-		if (maxRotationAngle != 360)
+		transform.Rotate(0.0f, 0.0f, turret.RotationSpeed * Time.deltaTime);
+		if (turret.MaxRotationAngle != 360)
 		{
-			currentRotationAngle += rotationFactor * Time.deltaTime;
+			currentRotationAngle += turret.RotationSpeed * Time.deltaTime;
 			//Handle rotating past the limit due to deltaTime
 			if (currentRotationAngle > leftAngleLimit)
 			{
@@ -133,10 +126,10 @@ public class TurretHandler : MonoBehaviour
 	}
 	private void RotateRight()
 	{
-		transform.Rotate(0.0f, 0.0f, -rotationFactor * Time.deltaTime);
-		if (maxRotationAngle != 360)
+		transform.Rotate(0.0f, 0.0f, -turret.RotationSpeed * Time.deltaTime);
+		if (turret.MaxRotationAngle != 360)
 		{
-			currentRotationAngle -= rotationFactor * Time.deltaTime;
+			currentRotationAngle -= turret.RotationSpeed * Time.deltaTime;
 			//Handle rotating past the limit due to deltaTime
 			if (currentRotationAngle < rightAngleLimit)
 			{
@@ -148,8 +141,8 @@ public class TurretHandler : MonoBehaviour
 	private void Shoot(object sender, EventArgs e)
 	{
 		float distanceToTarget = Vector3.Distance(transform.position, turretAim);
-		float dispersionFactor = distanceToTarget / maxRange;
-		float dispersion = Mathf.Clamp((maxDispersion * dispersionFactor), minDispersion, maxDispersion);
+		float dispersionFactor = distanceToTarget / turret.MaxRange;
+		float dispersion = Mathf.Clamp((turret.MaxDispersion * dispersionFactor), turret.MinDispersion, turret.MaxDispersion);
 
 		foreach (var spawner in shellSpawners)
 		{
@@ -157,7 +150,7 @@ public class TurretHandler : MonoBehaviour
 			modifiedTargetCoordinates.x = modifiedTargetCoordinates.x + Random.Range(-dispersion, dispersion);
 			modifiedTargetCoordinates.y = modifiedTargetCoordinates.y + Random.Range(-dispersion, dispersion);
 
-			GameObject shell = Instantiate(shellPrefab, spawner.transform.position, this.transform.rotation);
+			GameObject shell = Instantiate(turret.ShellScriptableObject.Prefab, spawner.transform.position, this.transform.rotation);
 			Shell shellScript = shell.GetComponent<Shell>();
 			shellScript.SetTargetCoordinates(modifiedTargetCoordinates);
 		}

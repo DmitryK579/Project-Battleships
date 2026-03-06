@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 7882835707977162160}
   - component: {fileID: 5779482722074312484}
   m_Layer: 8
-  m_Name: BattleshipShell
+  m_Name: BattleshipShellPrimary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,10 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 752b192f2d35acb4c809aa5cca7d515d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shell
-  damage: 30
-  moveSpeed: 10
-  maxHeight: 20
-  armingTimeS: 1.5
+  shell: {fileID: 11400000, guid: a9b418636664931469b44a751b914ecd, type: 2}
 --- !u!61 &5779482722074312484
 BoxCollider2D:
   m_ObjectHideFlags: 0

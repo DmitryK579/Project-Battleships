@@ -5,10 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Shell : MonoBehaviour
 {
-    [SerializeField] private float damage = 30.0f;
-    [SerializeField] private float moveSpeed = 10.0f;
-    [SerializeField] private float maxHeight = 20.0f;
-	[SerializeField] private float armingTimeS = 3.0f; 
+	[SerializeField] ShellScriptableObject shell;
     private BoxCollider2D boxCollider;
 	private Vector3 initialCoordinates;
     private Vector3 targetCoordinates;
@@ -45,9 +42,9 @@ public class Shell : MonoBehaviour
 	{
 		if (!reachedTarget && !collided)
 		{
-			travelProgress += (moveSpeed * Time.deltaTime) / Vector3.Distance(initialCoordinates, targetCoordinates);
+			travelProgress += (shell.Speed * Time.deltaTime) / Vector3.Distance(initialCoordinates, targetCoordinates);
 			transform.position = Vector3.Lerp(initialCoordinates, targetCoordinates, travelProgress);
-			float height = Mathf.Sin(travelProgress * Mathf.PI) * (maxHeight * (distanceToTravel/600.0f));
+			float height = Mathf.Sin(travelProgress * Mathf.PI) * (shell.MaxHeight * (distanceToTravel/600.0f));
 
 			if (travelProgress >= 1)
 			{
@@ -62,10 +59,10 @@ public class Shell : MonoBehaviour
 	//Wait until set time passed before activating collisions to prevent shells from colliding with parent ship
 	private void ArmShell()
 	{
-		if (armingTimer < armingTimeS)
+		if (armingTimer < shell.ArmingTimeS)
 		{
 			armingTimer += Time.deltaTime;
-			if (armingTimer >= armingTimeS)
+			if (armingTimer >= shell.ArmingTimeS)
 			{
 				boxCollider.enabled = true;
 			}
@@ -77,15 +74,14 @@ public class Shell : MonoBehaviour
 		{
 			if (collision.gameObject.TryGetComponent(out IDamagable damagable))
 			{
-				damagable.Damage(damage);
+				damagable.Damage(shell.Damage);
 			}
 			OnHit?.Invoke(this, EventArgs.Empty);
 			collided = true;
 			if (!reachedTarget)
 			{
 				OnReachedTarget?.Invoke(this, EventArgs.Empty);
-				float destructionTimer = 2.0f;
-				Destroy(gameObject, destructionTimer);
+				Destroy(gameObject, shell.FloatTimeS);
 			}
 		}
 	}

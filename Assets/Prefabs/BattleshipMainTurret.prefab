@@ -81,18 +81,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
   turretController: {fileID: 0}
+  turret: {fileID: 11400000, guid: a21f971f8d0666d43805009cb627886d, type: 2}
   shellSpawners:
   - {fileID: 7076698652222106527}
   - {fileID: 7369673891922410602}
   - {fileID: 694546075900444292}
-  shellPrefab: {fileID: 8046911100106498915, guid: 6825c7f250f6d06469e8bf728c9fb14b, type: 3}
-  isPrimaryTurret: 1
-  rotationFactor: 25
-  maxRotationAngle: 270
-  maxRange: 600
-  minRange: 15
-  maxDispersion: 20
-  minDispersion: 3
   aimLine: {fileID: 6982362767274672012}
 --- !u!120 &6982362767274672012
 LineRenderer:
