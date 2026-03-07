@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,6 +13,8 @@ public class Shell : MonoBehaviour
 	private float travelProgress = 0.0f;
     private float previousDistanceToTarget;
     private float distanceToTravel;
+	private float currentHeight;
+	private float turretMaxRange;
 	private float armingTimer = 0.0f;
 	private bool collided = false;
 	private bool reachedTarget = false;
@@ -44,15 +47,12 @@ public class Shell : MonoBehaviour
 		{
 			travelProgress += (shell.Speed * Time.deltaTime) / Vector3.Distance(initialCoordinates, targetCoordinates);
 			transform.position = Vector3.Lerp(initialCoordinates, targetCoordinates, travelProgress);
-			float height = Mathf.Sin(travelProgress * Mathf.PI) * (shell.MaxHeight * (distanceToTravel/600.0f));
+			currentHeight = Mathf.Sin(travelProgress * Mathf.PI) * (shell.MaxHeight * (distanceToTravel/turretMaxRange));
 
 			if (travelProgress >= 1)
 			{
 				this.transform.position = targetCoordinates;
-				reachedTarget = true;
-				OnReachedTarget?.Invoke(this, EventArgs.Empty);
-				float destructionTimer = 2.0f;
-				Destroy(gameObject, destructionTimer);
+				EndOfFlight();
 			}
 		}
 	}
@@ -68,28 +68,49 @@ public class Shell : MonoBehaviour
 			}
 		}
 	}
-	private void OnTriggerEnter2D(Collider2D collision)
+
+	private void EndOfFlight()
+	{
+		reachedTarget = true;
+		OnReachedTarget?.Invoke(this, EventArgs.Empty);
+		Destroy(gameObject, shell.FloatTimeS);
+	}
+	private void OnTriggerStay2D(Collider2D collision)
 	{
 		if (!collided)
 		{
-			if (collision.gameObject.TryGetComponent(out IDamagable damagable))
+			if (collision.gameObject.TryGetComponent(out IShellBlocker blocker))
 			{
-				damagable.Damage(shell.Damage);
+				if (currentHeight > blocker.GetObjectHeight())
+				{
+					return;
+				}
+
 			}
+
+			Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(transform.position, shell.ExplosionRadius);
+			foreach (Collider2D collider in objectsInRange)
+			{
+				if (collider.gameObject.TryGetComponent(out IDamagable damagable))
+				{
+					damagable.Damage(shell.Damage);
+				}
+			}
+
 			OnHit?.Invoke(this, EventArgs.Empty);
 			collided = true;
 			if (!reachedTarget)
 			{
-				OnReachedTarget?.Invoke(this, EventArgs.Empty);
-				Destroy(gameObject, shell.FloatTimeS);
+				EndOfFlight();
 			}
 		}
 	}
 
-	public void SetTargetCoordinates(Vector3 coordinates)
+	public void Initialize(Vector3 coordinates, float maxRange)
     {
         targetCoordinates = coordinates;
         RotateToTargetCoordinates();
+		turretMaxRange = maxRange;
 	}
 
     private void RotateToTargetCoordinates()

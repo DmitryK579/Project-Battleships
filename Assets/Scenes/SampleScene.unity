@@ -941,6 +941,10 @@ PrefabInstance:
       value: Battleship
       objectReference: {fileID: 0}
     - target: {fileID: 7879610854177232287, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+      propertyPath: rotationFactor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7879610854177232287, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: shipController
       value: 
       objectReference: {fileID: 1575834961}

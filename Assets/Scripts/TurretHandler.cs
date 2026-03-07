@@ -152,7 +152,7 @@ public class TurretHandler : MonoBehaviour
 
 			GameObject shell = Instantiate(turret.ShellScriptableObject.Prefab, spawner.transform.position, this.transform.rotation);
 			Shell shellScript = shell.GetComponent<Shell>();
-			shellScript.SetTargetCoordinates(modifiedTargetCoordinates);
+			shellScript.Initialize(modifiedTargetCoordinates,turret.MaxRange);
 		}
 	}
 }
