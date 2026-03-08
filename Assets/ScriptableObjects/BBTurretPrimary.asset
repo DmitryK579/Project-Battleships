@@ -19,4 +19,4 @@ MonoBehaviour:
   <MaxRange>k__BackingField: 600
   <MinRange>k__BackingField: 15
   <MaxDispersion>k__BackingField: 30
-  <MinDispersion>k__BackingField: 3
+  <MinDispersion>k__BackingField: 1
