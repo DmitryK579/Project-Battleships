@@ -2,17 +2,20 @@ using UnityEngine;
 
 public class PlayerShipController : ShipController
 {
-	private PlayerInputActions playerInputActions;
 	private Vector2 movementInput;
-	private void Awake()
+
+	private void Start()
 	{
-		playerInputActions = new PlayerInputActions();
-		playerInputActions.Player.Enable();
+		PlayerInputContainer.Instance.playerInputActions.PlayerHull.Enable();
 	}
-	
+
+	private void OnDisable()
+	{
+		PlayerInputContainer.Instance.playerInputActions.PlayerHull.Disable();
+	}
 	public override Vector2 GetMovementInput()
 	{
-		movementInput = playerInputActions.Player.Move.ReadValue<Vector2>();
+		movementInput = PlayerInputContainer.Instance.playerInputActions.PlayerHull.Move.ReadValue<Vector2>();
 		return movementInput;
 	}
 }

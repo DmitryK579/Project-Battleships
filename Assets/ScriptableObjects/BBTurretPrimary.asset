@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddcbad36f621a524797f6c86b73b7d12, type: 3}
+  m_Name: BBTurretPrimary
+  m_EditorClassIdentifier: Assembly-CSharp::TurretScriptableObject
+  <ShellScriptableObject>k__BackingField: {fileID: 11400000, guid: a9b418636664931469b44a751b914ecd, type: 2}
+  <IsPrimaryTurret>k__BackingField: 1
+  <ReloadTimeS>k__BackingField: 2
+  <RotationSpeed>k__BackingField: 25
+  <MaxRotationAngle>k__BackingField: 270
+  <MaxRange>k__BackingField: 600
+  <MinRange>k__BackingField: 15
+  <MaxDispersion>k__BackingField: 30
+  <MinDispersion>k__BackingField: 1

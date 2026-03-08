@@ -1,13 +1,15 @@
 using UnityEngine;
 
-public class ShipHandler : MonoBehaviour
+public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 {
 	[Header("Scripts")]
 	[SerializeField] private ShipController shipController;
 	[Header("Ship settings")]
+	[SerializeField] private float health = 60000.0f;
 	[SerializeField] private float accelerationFactor = 1.0f;
 	[SerializeField] private float rotationFactor = 1.0f;
 	[SerializeField] private float driftFactor = 1.0f;
+	[SerializeField] private float objectHeight = 1.0f;
 
 	private Rigidbody2D shipRigidbody2D;
 
@@ -52,5 +54,15 @@ public class ShipHandler : MonoBehaviour
 		Vector2 rightVelocity = transform.right * Vector2.Dot(shipRigidbody2D.linearVelocity, transform.right);
 
 		shipRigidbody2D.linearVelocity = forwardVelocity + rightVelocity * driftFactor;
+	}
+
+	public void Damage(float damage)
+	{
+		health -= damage;
+	}
+
+	public float GetObjectHeight()
+	{
+		return objectHeight;
 	}
 }
