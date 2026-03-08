@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TurretScriptableObject
   <ShellScriptableObject>k__BackingField: {fileID: 11400000, guid: a9b418636664931469b44a751b914ecd, type: 2}
   <IsPrimaryTurret>k__BackingField: 1
+  <ReloadTimeS>k__BackingField: 2
   <RotationSpeed>k__BackingField: 25
   <MaxRotationAngle>k__BackingField: 270
   <MaxRange>k__BackingField: 600

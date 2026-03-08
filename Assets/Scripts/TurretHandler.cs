@@ -22,6 +22,7 @@ public class TurretHandler : MonoBehaviour
 	private float leftAngleLimit;
 	private float rightAngleLimit;
 	private float angleFromLimitToCenter;
+	private float reloadTimerS;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	private void Start()
@@ -29,6 +30,7 @@ public class TurretHandler : MonoBehaviour
 		leftAngleLimit = turretDefaultAngle + turret.MaxRotationAngle / 2;
 		rightAngleLimit = turretDefaultAngle - turret.MaxRotationAngle / 2;
 		angleFromLimitToCenter = (360 - turret.MaxRotationAngle) / 2;
+		reloadTimerS = 0.0f;
 
 		turretController.OnShoot += Shoot;
 	}
@@ -38,6 +40,8 @@ public class TurretHandler : MonoBehaviour
     {
 		RotateTurret();
 		DrawLine();
+		if (reloadTimerS>0)
+			reloadTimerS -= Time.deltaTime;
 	}
 
 	private void DrawLine()
@@ -140,6 +144,11 @@ public class TurretHandler : MonoBehaviour
 
 	private void Shoot(object sender, EventArgs e)
 	{
+		if (reloadTimerS > 0)
+		{
+			return;
+		}
+
 		float distanceToTarget = Vector3.Distance(transform.position, turretAim);
 		float dispersionFactor = distanceToTarget / turret.MaxRange;
 		float dispersion = Mathf.Clamp((turret.MaxDispersion * dispersionFactor), turret.MinDispersion, turret.MaxDispersion);
@@ -154,5 +163,7 @@ public class TurretHandler : MonoBehaviour
 			Shell shellScript = shell.GetComponent<Shell>();
 			shellScript.Initialize(modifiedTargetCoordinates,turret.MaxRange);
 		}
+
+		reloadTimerS = turret.ReloadTimeS;
 	}
 }
