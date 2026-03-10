@@ -166,4 +166,9 @@ public class TurretHandler : MonoBehaviour
 
 		reloadTimerS = turret.ReloadTimeS;
 	}
+
+	public (float reloadTime, float reloadTimer) GetReloadTimeAndTimer()
+	{
+		return (turret.ReloadTimeS,reloadTimerS);
+	}
 }
