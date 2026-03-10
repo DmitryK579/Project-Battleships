@@ -242,6 +242,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8f10a7b5828bf4194eeb014c0d635c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AimCursor
+--- !u!114 &324074040 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7010134496995029896, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+  m_PrefabInstance: {fileID: 1575233997412907363}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +650,17 @@ PolygonCollider2D:
       - {x: -2.6059701, y: -35.51565}
       - {x: 6.0309596, y: -35.51565}
   m_UseDelaunayMesh: 1
+--- !u!114 &801499394 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 83237490024605541, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+  m_PrefabInstance: {fileID: 1575233997412907363}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
 --- !u!1 &816376303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,6 +1483,17 @@ PolygonCollider2D:
       - {x: 0.6328785, y: -31.346098}
       - {x: 3.2016203, y: -31.346098}
   m_UseDelaunayMesh: 1
+--- !u!114 &1471584728 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8266246137887108925, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+  m_PrefabInstance: {fileID: 1575233997412907363}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
 --- !u!1 &1486773861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,6 +1505,7 @@ GameObject:
   - component: {fileID: 1486773862}
   - component: {fileID: 1486773864}
   - component: {fileID: 1486773863}
+  - component: {fileID: 1486773865}
   m_Layer: 5
   m_Name: ReloadProgress
   m_TagString: Untagged
@@ -1536,6 +1570,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486773861}
   m_CullTransparentMesh: 1
+--- !u!114 &1486773865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486773861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1339d403bcb6f44ad61e2c19792309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReloadProgress
+  <TurretObjectsToTrack>k__BackingField:
+  - {fileID: 801499394}
+  - {fileID: 2092156639}
+  - {fileID: 324074040}
+  - {fileID: 1471584728}
 --- !u!1 &1575834960
 GameObject:
   m_ObjectHideFlags: 0
@@ -1908,85 +1959,6 @@ PolygonCollider2D:
       - {x: -1.9358635, y: -23.826012}
       - {x: 0.111684434, y: -23.826012}
   m_UseDelaunayMesh: 1
---- !u!1 &1959958660
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1959958663}
-  - component: {fileID: 1959958662}
-  - component: {fileID: 1959958661}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1959958661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1959958660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.UI.InputSystemUIInputModule
-  m_SendPointerHoverToParent: 1
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
-  m_ScrollDeltaPerTick: 6
---- !u!114 &1959958662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1959958660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventSystem
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &1959958663
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1959958660}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2089018625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2112,6 +2084,17 @@ MonoBehaviour:
   zoomLerpSpeed: 10
   maxZoom: 600
   minZoom: 20
+--- !u!114 &2092156639 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2096865510514004414, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+  m_PrefabInstance: {fileID: 1575233997412907363}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
 --- !u!1001 &1575233997412907363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2210,4 +2193,3 @@ SceneRoots:
   - {fileID: 1297853811}
   - {fileID: 1067840123}
   - {fileID: 1819116109}
-  - {fileID: 1959958663}
