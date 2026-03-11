@@ -30,7 +30,7 @@ public class TurretHandler : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	private void Start()
     {
-		halfOfRotationArc = turret.MaxRotationAngle;
+		halfOfRotationArc = turret.MaxRotationAngle/2f;
 		reloadTimerS = 0.0f;
 
 		initialLocalAngle = transform.localEulerAngles.z;
