@@ -391,10 +391,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipHandler
   shipController: {fileID: 0}
-  health: 60000
-  accelerationFactor: 0.1
-  rotationFactor: 0.006
-  driftFactor: 0.95
+  ship: {fileID: 11400000, guid: aac308eb3ecfb204cb2ce7664c609d73, type: 2}
+  primaryTurrets:
+  - {fileID: 83237490024605541}
+  - {fileID: 2096865510514004414}
+  - {fileID: 7010134496995029896}
+  - {fileID: 8266246137887108925}
+  secondaryTurrets: []
   objectHeight: 1
 --- !u!60 &4264882234059612648
 PolygonCollider2D:
@@ -679,6 +682,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+--- !u!114 &2096865510514004414 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+  m_PrefabInstance: {fileID: 2762176503600618488}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
 --- !u!4 &6188042767957543194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8337676910511477474, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
@@ -761,6 +775,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+--- !u!114 &83237490024605541 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+  m_PrefabInstance: {fileID: 4209476939130760483}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
 --- !u!4 &5322814957183909825 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8337676910511477474, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
@@ -848,6 +873,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8337676910511477474, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
   m_PrefabInstance: {fileID: 5330911654060991867}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8266246137887108925 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+  m_PrefabInstance: {fileID: 5330911654060991867}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
 --- !u!1001 &6486776485152995790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -934,3 +970,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8337676910511477474, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
   m_PrefabInstance: {fileID: 6486776485152995790}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7010134496995029896 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+  m_PrefabInstance: {fileID: 6486776485152995790}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler

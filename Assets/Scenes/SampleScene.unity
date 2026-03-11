@@ -119,6 +119,61 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &98687297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 98687298}
+  - component: {fileID: 98687299}
+  m_Layer: 5
+  m_Name: TurretStatusManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &98687298
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98687297}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 315043782}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &98687299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98687297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 676c0c5d74c788042a122384deff7510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurretStatusManager
+  <TrackedShip>k__BackingField: {fileID: 1712779721}
+  turretStatusCirclePrefab: {fileID: 4876433384504089591, guid: 47c17a24acbbe9840a153f7609f299cd, type: 3}
+  initialXOffset: -45
+  initialYOffset: -70
+  xStep: 30
+  yStep: -30
+  circlesPerRow: 4
 --- !u!1 &200540430
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,9 +237,9 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 1486773862}
+  - {fileID: 98687298}
   m_Father: {fileID: 1819116109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -212,7 +267,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9bc945e3238b74b45b65f1c7761f8b54, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0db015396d014564fbc5cd455892fffd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -242,17 +297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8f10a7b5828bf4194eeb014c0d635c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AimCursor
---- !u!114 &324074040 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7010134496995029896, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
-  m_PrefabInstance: {fileID: 1575233997412907363}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,17 +694,6 @@ PolygonCollider2D:
       - {x: -2.6059701, y: -35.51565}
       - {x: 6.0309596, y: -35.51565}
   m_UseDelaunayMesh: 1
---- !u!114 &801499394 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 83237490024605541, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
-  m_PrefabInstance: {fileID: 1575233997412907363}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
 --- !u!1 &816376303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,6 +1220,10 @@ PrefabInstance:
       propertyPath: turretController
       value: 
       objectReference: {fileID: 955083057}
+    - target: {fileID: 6524947337860059823, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7010134496995029896, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: turretController
       value: 
@@ -1483,110 +1520,6 @@ PolygonCollider2D:
       - {x: 0.6328785, y: -31.346098}
       - {x: 3.2016203, y: -31.346098}
   m_UseDelaunayMesh: 1
---- !u!114 &1471584728 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8266246137887108925, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
-  m_PrefabInstance: {fileID: 1575233997412907363}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
---- !u!1 &1486773861
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1486773862}
-  - component: {fileID: 1486773864}
-  - component: {fileID: 1486773863}
-  - component: {fileID: 1486773865}
-  m_Layer: 5
-  m_Name: ReloadProgress
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1486773862
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1486773861}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 315043782}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1486773863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1486773861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5bfb0577b1fe41a4480877f0cd02df60, type: 3}
-  m_Type: 3
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 2
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1486773864
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1486773861}
-  m_CullTransparentMesh: 1
---- !u!114 &1486773865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1486773861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1339d403bcb6f44ad61e2c19792309, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ReloadProgress
-  <TurretObjectsToTrack>k__BackingField:
-  - {fileID: 801499394}
-  - {fileID: 2092156639}
-  - {fileID: 324074040}
-  - {fileID: 1471584728}
 --- !u!1 &1575834960
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,6 +1569,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 694015015930602380, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
   m_PrefabInstance: {fileID: 1575233997412907363}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1712779721 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7879610854177232287, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+  m_PrefabInstance: {fileID: 1575233997412907363}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fbad34aeb811b64d8595f596f296fe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipHandler
 --- !u!1 &1783947652
 GameObject:
   m_ObjectHideFlags: 0
@@ -2084,17 +2028,6 @@ MonoBehaviour:
   zoomLerpSpeed: 10
   maxZoom: 600
   minZoom: 20
---- !u!114 &2092156639 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2096865510514004414, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
-  m_PrefabInstance: {fileID: 1575233997412907363}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc8b346278852224ba1a84447bcb0970, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TurretHandler
 --- !u!1001 &1575233997412907363
 PrefabInstance:
   m_ObjectHideFlags: 0
