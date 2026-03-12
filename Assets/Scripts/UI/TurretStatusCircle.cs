@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class TurretStatusCircle : MonoBehaviour
 {
     [field: SerializeField] public TurretHandler TrackedTurret { get; set; }
+	[SerializeField] private Transform collisionMark;
     private Image progressImage;
 	private bool reloading = false;
 	private bool facingTarget = false;
@@ -17,6 +18,8 @@ public class TurretStatusCircle : MonoBehaviour
 		TrackedTurret.OnShoot += OnTurretShoot;
 		TrackedTurret.OnFacingTarget += OnTurretFacingTarget;
 		TrackedTurret.OnNoLongerFacingTarget += OnTurretNoLongerFacingTarget;
+		TrackedTurret.OnShellSimulationCollision += OnTurretShellSimulationCollision;
+		TrackedTurret.OnShellSimulationPass += OnTurretShellSimulationPass;
 		progressImage = GetComponent<Image>();
 		ChangeImageColour();
 	}
@@ -72,4 +75,14 @@ public class TurretStatusCircle : MonoBehaviour
 			progressImage.color = Color.orange;
 	}
 
+	private void OnTurretShellSimulationPass(object sender, EventArgs e)
+	{
+		collisionMark.gameObject.SetActive(false);
+	}
+
+	private void OnTurretShellSimulationCollision(object sender, TurretHandler.OnShellSimulationCollisionArgs e)
+	{
+		collisionMark.gameObject.SetActive(true);
+		collisionMark.transform.position = Camera.main.WorldToScreenPoint(e.collisionPosition);
+	}
 }

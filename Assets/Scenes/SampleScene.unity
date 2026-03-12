@@ -2027,7 +2027,7 @@ MonoBehaviour:
   zoomSpeed: 20
   zoomLerpSpeed: 10
   maxZoom: 600
-  minZoom: 20
+  minZoom: 10
 --- !u!1001 &1575233997412907363
 PrefabInstance:
   m_ObjectHideFlags: 0

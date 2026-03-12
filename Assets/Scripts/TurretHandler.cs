@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,7 +16,7 @@ public class TurretHandler : MonoBehaviour
 
 	private Vector3 targetCoordinates;
 	private Vector3 turretAim = Vector3.zero;
-	private bool drawLineToTarget = true;
+	private bool drawLineToTarget = false;
 
 	private float halfOfRotationArc;
 	private float reloadTimerS;
@@ -27,6 +28,12 @@ public class TurretHandler : MonoBehaviour
 	public event EventHandler OnFacingTarget;
 	public event EventHandler OnNoLongerFacingTarget;
 
+	public event EventHandler<OnShellSimulationCollisionArgs> OnShellSimulationCollision;
+	public class OnShellSimulationCollisionArgs : EventArgs
+	{
+		public Vector3 collisionPosition;
+	}
+	public event EventHandler OnShellSimulationPass;
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	private void Start()
     {
@@ -45,6 +52,7 @@ public class TurretHandler : MonoBehaviour
     {
 		RotateTurret();
 		DrawLine();
+		SimulateShell();
 		if (reloadTimerS>0)
 			reloadTimerS -= Time.deltaTime;
 	}
@@ -142,6 +150,54 @@ public class TurretHandler : MonoBehaviour
 
 		reloadTimerS = turret.ReloadTimeS;
 		OnShoot?.Invoke(this, EventArgs.Empty);
+	}
+
+	private void SimulateShell()
+	{
+		float simulationStep = 10f;
+		float shellHitBoxSize = 1f;
+		float distance = Mathf.Clamp(Vector2.Distance(transform.position, turretAim), turret.MinRange, turret.MaxRange);
+		Vector3 simulationPosition = Vector3.zero;
+		float simulationHeight = 0f;
+		float simulationMaxHeight = 20f;
+		float travelProgress = 0f;
+		bool collided = false;
+
+		if (distance < 50)
+		{
+			simulationStep = simulationStep/10f;
+		}
+
+		for (float i = 0f; i < distance; i+=simulationStep)
+		{
+			travelProgress += simulationStep / distance;
+			simulationPosition = Vector3.Lerp(transform.position, turretAim, travelProgress);
+			simulationHeight = Mathf.Sin(travelProgress * Mathf.PI) * (simulationMaxHeight * (distance / turret.MaxRange));
+
+			if (Vector2.Distance(simulationPosition, transform.position) > turret.MinRange)
+			{
+				Collider2D[] objectsInRange = Physics2D.OverlapBoxAll(simulationPosition, new Vector2(shellHitBoxSize, shellHitBoxSize), 0f);
+				foreach (Collider2D collider in objectsInRange)
+				{
+					if (collider.gameObject.TryGetComponent(out IShellBlocker blocker))
+					{
+						if (blocker.GetObjectHeight() >= simulationHeight)
+						{
+							collided = true;
+						}
+					}
+				}
+			}
+
+			if (collided)
+			{
+				OnShellSimulationCollision?.Invoke(this, new OnShellSimulationCollisionArgs { collisionPosition = simulationPosition });
+				break;
+			}
+		}
+
+		if (!collided)
+			OnShellSimulationPass?.Invoke(this, EventArgs.Empty);
 	}
 
 	public (float reloadTime, float reloadTimer) GetReloadTimeAndTimer()
