@@ -155,12 +155,8 @@ public class TurretHandler : MonoBehaviour
 	private void SimulateShell()
 	{
 		float simulationStep = 10f;
-		float shellHitBoxSize = 1f;
+		float shellHitBoxSize = 0.1f;
 		float distance = Mathf.Clamp(Vector2.Distance(transform.position, turretAim), turret.MinRange, turret.MaxRange);
-		Vector3 simulationPosition = Vector3.zero;
-		float simulationHeight = 0f;
-		float simulationMaxHeight = 20f;
-		float travelProgress = 0f;
 		bool collided = false;
 
 		if (distance < 50)
@@ -168,20 +164,20 @@ public class TurretHandler : MonoBehaviour
 			simulationStep = simulationStep/10f;
 		}
 
+		ShellMovementHandler shellMovementSimulation = new ShellMovementHandler(transform.position, turretAim, simulationStep, turret.MaxRange, turret.ShellScriptableObject.MaxHeight);
+
 		for (float i = 0f; i < distance; i+=simulationStep)
 		{
-			travelProgress += simulationStep / distance;
-			simulationPosition = Vector3.Lerp(transform.position, turretAim, travelProgress);
-			simulationHeight = Mathf.Sin(travelProgress * Mathf.PI) * (simulationMaxHeight * (distance / turret.MaxRange));
+			shellMovementSimulation.Step();
 
-			if (Vector2.Distance(simulationPosition, transform.position) > turret.MinRange)
+			if (Vector2.Distance(shellMovementSimulation.CurrentPosition, transform.position) > turret.MinRange)
 			{
-				Collider2D[] objectsInRange = Physics2D.OverlapBoxAll(simulationPosition, new Vector2(shellHitBoxSize, shellHitBoxSize), 0f);
+				Collider2D[] objectsInRange = Physics2D.OverlapBoxAll(shellMovementSimulation.CurrentPosition, new Vector2(shellHitBoxSize, shellHitBoxSize), 0f);
 				foreach (Collider2D collider in objectsInRange)
 				{
 					if (collider.gameObject.TryGetComponent(out IShellBlocker blocker))
 					{
-						if (blocker.GetObjectHeight() >= simulationHeight)
+						if (blocker.GetObjectHeight() >= shellMovementSimulation.CurrentHeight)
 						{
 							collided = true;
 						}
@@ -191,7 +187,7 @@ public class TurretHandler : MonoBehaviour
 
 			if (collided)
 			{
-				OnShellSimulationCollision?.Invoke(this, new OnShellSimulationCollisionArgs { collisionPosition = simulationPosition });
+				OnShellSimulationCollision?.Invoke(this, new OnShellSimulationCollisionArgs { collisionPosition = shellMovementSimulation.CurrentPosition });
 				break;
 			}
 		}
