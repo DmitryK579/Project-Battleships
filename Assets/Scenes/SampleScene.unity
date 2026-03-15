@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TurretStatusManager
   <TrackedShip>k__BackingField: {fileID: 1712779721}
   turretStatusCirclePrefab: {fileID: 4876433384504089591, guid: 47c17a24acbbe9840a153f7609f299cd, type: 3}
+  turretSimulationTrackerPrefab: {fileID: 421966344891021844, guid: 4d6a1b501aec3b849b397915e5361cbc, type: 3}
   initialXOffset: -45
   initialYOffset: -70
   xStep: 30

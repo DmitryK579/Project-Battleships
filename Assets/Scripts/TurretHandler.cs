@@ -154,7 +154,7 @@ public class TurretHandler : MonoBehaviour
 
 	private void SimulateShell()
 	{
-		float simulationStep = 10f;
+		float simulationStep = 1f;
 		float shellHitBoxSize = 0.1f;
 		float distance = Mathf.Clamp(Vector2.Distance(transform.position, turretAim), turret.MinRange, turret.MaxRange);
 		bool collided = false;
