@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9bc945e3238b74b45b65f1c7761f8b54
+guid: a9959b390c763c4409b9bd71c6cd862f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5978675332622253818
-    second: Targeting Reticle_0
+      213: 4087494618416229574
+    second: ShellCollisionMarker_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Targeting Reticle_0
+      name: ShellCollisionMarker_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 60109ab167a770da0800000000000000
-      internalID: -5978675332622253818
+      spriteID: 6cc2500f2b2b9b830800000000000000
+      internalID: 4087494618416229574
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Targeting Reticle_0: -5978675332622253818
+      ShellCollisionMarker_0: 4087494618416229574
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

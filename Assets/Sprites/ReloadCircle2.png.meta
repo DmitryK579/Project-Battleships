@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9bc945e3238b74b45b65f1c7761f8b54
+guid: 6e436957aedae4f4fb9740d4a0e71767
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5978675332622253818
-    second: Targeting Reticle_0
+      213: 5061915417453732168
+    second: ReloadCircle2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Targeting Reticle_0
+      name: ReloadCircle2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 60109ab167a770da0800000000000000
-      internalID: -5978675332622253818
+      spriteID: 8412764c0498f3640800000000000000
+      internalID: 5061915417453732168
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Targeting Reticle_0: -5978675332622253818
+      ReloadCircle2_0: 5061915417453732168
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

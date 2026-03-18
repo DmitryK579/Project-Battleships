@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9bc945e3238b74b45b65f1c7761f8b54
+guid: c6931cf9e0aec36439725f3b272d9f6d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5978675332622253818
-    second: Targeting Reticle_0
+      213: -4343531677317196963
+    second: ShipStatusBackground_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Targeting Reticle_0
+      name: ShipStatusBackground_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 60109ab167a770da0800000000000000
-      internalID: -5978675332622253818
+      spriteID: d531ad6d3fca8b3c0800000000000000
+      internalID: -4343531677317196963
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Targeting Reticle_0: -5978675332622253818
+      ShipStatusBackground_0: -4343531677317196963
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,22 +16,33 @@ public class TurretHandler : MonoBehaviour
 
 	private Vector3 targetCoordinates;
 	private Vector3 turretAim = Vector3.zero;
-	private bool drawLineToTarget = true;
+	private bool drawLineToTarget = false;
 
-	private const float turretDefaultAngle = 0;
-	private float currentRotationAngle = 0;
-	private float leftAngleLimit;
-	private float rightAngleLimit;
-	private float angleFromLimitToCenter;
+	private float halfOfRotationArc;
 	private float reloadTimerS;
+	private float initialLocalAngle;
+	private float facingThresholdDegrees = 1.0f;
+	private bool facingTarget = false;
 
+	public event EventHandler OnShoot;
+	public event EventHandler OnFacingTarget;
+	public event EventHandler OnNoLongerFacingTarget;
+
+	public event EventHandler<OnShellSimulationCollisionArgs> OnShellSimulationCollision;
+	public class OnShellSimulationCollisionArgs : EventArgs
+	{
+		public Vector3 collisionPosition;
+	}
+	public event EventHandler OnShellSimulationPass;
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	private void Start()
     {
-		leftAngleLimit = turretDefaultAngle + turret.MaxRotationAngle / 2;
-		rightAngleLimit = turretDefaultAngle - turret.MaxRotationAngle / 2;
-		angleFromLimitToCenter = (360 - turret.MaxRotationAngle) / 2;
+		halfOfRotationArc = turret.MaxRotationAngle/2f;
 		reloadTimerS = 0.0f;
+
+		initialLocalAngle = transform.localEulerAngles.z;
+		if (initialLocalAngle > 180) 
+			initialLocalAngle -= 360f;
 
 		turretController.OnShoot += Shoot;
 	}
@@ -40,6 +52,7 @@ public class TurretHandler : MonoBehaviour
     {
 		RotateTurret();
 		DrawLine();
+		SimulateShell();
 		if (reloadTimerS>0)
 			reloadTimerS -= Time.deltaTime;
 	}
@@ -57,8 +70,6 @@ public class TurretHandler : MonoBehaviour
 			aimLine.enabled = true;
 			aimLine.SetPosition(0, initialPosition);
 			aimLine.SetPosition(1, turretAim);
-			//Debug.Log("IP: " + initialPosition);
-			//Debug.Log("TP: " + targetPosition);
 		}
 		else
 		{
@@ -70,75 +81,48 @@ public class TurretHandler : MonoBehaviour
 	{
 		targetCoordinates = turretController.GetTargetCoordinates();
 
-		Vector3 frontVectorToTarget = (targetCoordinates - transform.position).normalized;
-		float angleToTarget = -(Vector3.SignedAngle(frontVectorToTarget, transform.up, new Vector3(0, 0, 1)));
+		Vector3 direction = targetCoordinates - transform.position;
 
-		if (turret.MaxRotationAngle != 360)
+		//Get the world target angle and subtract parent rotation to get local target.
+		float globalTargetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90.0f;
+		float parentRotation = transform.parent.eulerAngles.z;
+		float localTargetAngle = Mathf.DeltaAngle(parentRotation, globalTargetAngle);
+
+		//Calculate how far the target is from our starting orientation.
+		//DeltaAngle handles the 180/-180 wrap-around.
+		float targetOffsetFromStart = Mathf.DeltaAngle(initialLocalAngle, localTargetAngle);
+
+		//Clamp the offset within the allowed arc.
+		float clampedOffset = Mathf.Clamp(targetOffsetFromStart, -halfOfRotationArc, halfOfRotationArc);
+
+		//Calculate our current offset from the start.
+		float currentLocalAngle = transform.localEulerAngles.z;
+		if (currentLocalAngle > 180) 
+			currentLocalAngle -= 360f;
+		float currentOffsetFromStart = Mathf.DeltaAngle(initialLocalAngle, currentLocalAngle);
+
+		//Move toward the clamped offset using linear math (no wrapping).
+		//This prevents the "long way around" snapping.
+		float nextOffset = Mathf.MoveTowards(
+			currentOffsetFromStart,
+			clampedOffset,
+			turret.RotationSpeed * Time.deltaTime
+		);
+
+		//Re-apply the offset to the starting angle.
+		float finalAngle = initialLocalAngle + nextOffset;
+		transform.localRotation = Quaternion.Euler(0, 0, finalAngle);
+
+		//Check whether the turret is facing the target.
+		if (Mathf.Abs(Mathf.DeltaAngle(finalAngle, localTargetAngle)) < facingThresholdDegrees)
 		{
-			if (angleToTarget > 0)
-			{
-				float angleFromTurretToLimit = leftAngleLimit - currentRotationAngle;
-
-				if (angleToTarget > angleFromTurretToLimit + angleFromLimitToCenter)
-				{
-					RotateRight();
-				}
-
-				else if (currentRotationAngle < leftAngleLimit)
-				{
-					RotateLeft();
-				}
-			}
-			else if (angleToTarget < 0)
-			{
-				float angleFromTurretToLimit = rightAngleLimit - currentRotationAngle;
-
-				if (angleToTarget < angleFromTurretToLimit - angleFromLimitToCenter)
-				{
-					RotateLeft();
-				}
-				else if (currentRotationAngle > rightAngleLimit)
-				{
-					RotateRight();
-				}
-			}
+			facingTarget = true;
+			OnFacingTarget?.Invoke(this, EventArgs.Empty);
 		}
-		else
+		else if (facingTarget)
 		{
-			if (angleToTarget > 0)
-			{
-				RotateLeft();
-			}
-			else if (angleToTarget < 0)
-			{
-				RotateRight();
-			}
-		}
-	}
-	private void RotateLeft()
-	{
-		transform.Rotate(0.0f, 0.0f, turret.RotationSpeed * Time.deltaTime);
-		if (turret.MaxRotationAngle != 360)
-		{
-			currentRotationAngle += turret.RotationSpeed * Time.deltaTime;
-			//Handle rotating past the limit due to deltaTime
-			if (currentRotationAngle > leftAngleLimit)
-			{
-				currentRotationAngle = leftAngleLimit;
-			}
-		}
-	}
-	private void RotateRight()
-	{
-		transform.Rotate(0.0f, 0.0f, -turret.RotationSpeed * Time.deltaTime);
-		if (turret.MaxRotationAngle != 360)
-		{
-			currentRotationAngle -= turret.RotationSpeed * Time.deltaTime;
-			//Handle rotating past the limit due to deltaTime
-			if (currentRotationAngle < rightAngleLimit)
-			{
-				currentRotationAngle = rightAngleLimit;
-			}
+			facingTarget = false;
+			OnNoLongerFacingTarget?.Invoke(this, EventArgs.Empty);
 		}
 	}
 
@@ -165,5 +149,55 @@ public class TurretHandler : MonoBehaviour
 		}
 
 		reloadTimerS = turret.ReloadTimeS;
+		OnShoot?.Invoke(this, EventArgs.Empty);
+	}
+
+	private void SimulateShell()
+	{
+		float simulationStep = 1f;
+		float shellHitBoxSize = 0.1f;
+		float distance = Mathf.Clamp(Vector2.Distance(transform.position, turretAim), turret.MinRange, turret.MaxRange);
+		bool collided = false;
+
+		if (distance < 50)
+		{
+			simulationStep = simulationStep/10f;
+		}
+
+		ShellMovementHandler shellMovementSimulation = new ShellMovementHandler(transform.position, turretAim, simulationStep, turret.MaxRange, turret.ShellScriptableObject.MaxHeight);
+
+		for (float i = 0f; i < distance; i+=simulationStep)
+		{
+			shellMovementSimulation.Step();
+
+			if (Vector2.Distance(shellMovementSimulation.CurrentPosition, transform.position) > turret.MinRange)
+			{
+				Collider2D[] objectsInRange = Physics2D.OverlapBoxAll(shellMovementSimulation.CurrentPosition, new Vector2(shellHitBoxSize, shellHitBoxSize), 0f);
+				foreach (Collider2D collider in objectsInRange)
+				{
+					if (collider.gameObject.TryGetComponent(out IShellBlocker blocker))
+					{
+						if (blocker.GetObjectHeight() >= shellMovementSimulation.CurrentHeight)
+						{
+							collided = true;
+						}
+					}
+				}
+			}
+
+			if (collided)
+			{
+				OnShellSimulationCollision?.Invoke(this, new OnShellSimulationCollisionArgs { collisionPosition = shellMovementSimulation.CurrentPosition });
+				break;
+			}
+		}
+
+		if (!collided)
+			OnShellSimulationPass?.Invoke(this, EventArgs.Empty);
+	}
+
+	public (float reloadTime, float reloadTimer) GetReloadTimeAndTimer()
+	{
+		return (turret.ReloadTimeS,reloadTimerS);
 	}
 }
