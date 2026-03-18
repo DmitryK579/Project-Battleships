@@ -71,7 +71,7 @@ public class TurretStatusCircle : MonoBehaviour
 		progressImage.color = Color.green;
 
 		if (reloading)
-			progressImage.color = Color.red;
+			progressImage.color = Color.greenYellow;
 
 		if (!facingTarget)
 			progressImage.color = Color.orange;
