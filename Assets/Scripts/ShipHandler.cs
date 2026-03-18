@@ -7,7 +7,7 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 	[Header("Scripts")]
 	[SerializeField] private ShipController shipController;
 	[Header("Ship settings")]
-	[SerializeField] private ShipScriptableObject ship;
+	[field: SerializeField] public ShipScriptableObject Ship { get; private set; }
 	[SerializeField] private List<TurretHandler> primaryTurrets;
 	[SerializeField] private List<TurretHandler> secondaryTurrets;
 	[SerializeField] private float objectHeight = 1.0f;
@@ -23,7 +23,7 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
     {
-		currentHealth = ship.Health;
+		currentHealth = Ship.Health;
 	}
 
     // Update is called once per frame
@@ -40,13 +40,13 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 	}
 	void ApplyEngineForce()
 	{
-		Vector2 engineForceVector = transform.up * shipController.GetMovementInput().y * ship.AccelerationFactor;
+		Vector2 engineForceVector = transform.up * shipController.GetMovementInput().y * Ship.AccelerationFactor;
 		shipRigidbody2D.AddForce(engineForceVector, ForceMode2D.Force);
 	}
 
 	void ApplyShipRotation()
 	{
-		var torque = -shipController.GetMovementInput().x * ship.RotationFactor;
+		var torque = -shipController.GetMovementInput().x * Ship.RotationFactor;
 		shipRigidbody2D.AddTorque(torque, ForceMode2D.Force);
 	}
 
@@ -56,17 +56,24 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 		Vector2 forwardVelocity = transform.up * Vector2.Dot(shipRigidbody2D.linearVelocity, transform.up);
 		Vector2 rightVelocity = transform.right * Vector2.Dot(shipRigidbody2D.linearVelocity, transform.right);
 
-		shipRigidbody2D.linearVelocity = forwardVelocity + rightVelocity * ship.DriftFactor;
+		shipRigidbody2D.linearVelocity = forwardVelocity + rightVelocity * Ship.DriftFactor;
 	}
 
 	public void Damage(float damage)
 	{
 		currentHealth -= damage;
+		if (currentHealth < 0)
+			currentHealth = 0;
 	}
 
 	public float GetObjectHeight()
 	{
 		return objectHeight;
+	}
+
+	public float GetCurrentHealth()
+	{
+		return currentHealth;
 	}
 
 	public List<TurretHandler> GetControllableTurrets()
