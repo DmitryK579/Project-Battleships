@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9bc945e3238b74b45b65f1c7761f8b54
+guid: 0db015396d014564fbc5cd455892fffd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5978675332622253818
-    second: Targeting Reticle_0
+      213: -5170221469984812264
+    second: Targeting Reticle2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Targeting Reticle_0
+      name: Targeting Reticle2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 60109ab167a770da0800000000000000
-      internalID: -5978675332622253818
+      spriteID: 813157f47feaf38b0800000000000000
+      internalID: -5170221469984812264
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Targeting Reticle_0: -5978675332622253818
+      Targeting Reticle2_0: -5170221469984812264
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
