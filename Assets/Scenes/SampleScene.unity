@@ -732,6 +732,55 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!1 &571301157
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 571301158}
+  - component: {fileID: 571301159}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &571301158
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571301157}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -37.7487, y: -41.28701, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &571301159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571301157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21215e187a2ac74892484a056d37268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  playerShipController: {fileID: 0}
+  playerTurretController: {fileID: 0}
+  playerShip: {fileID: 0}
+  teamA: []
+  teamB: []
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1382,6 +1431,17 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &817112192 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9031656989928822207, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+  m_PrefabInstance: {fileID: 971298173}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96704eaae2df7eb4aa87f837fa6840df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CPUShipController
 --- !u!1 &848320634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1515,11 +1575,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 694015015930602380, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -31.19
+      value: -38.5
       objectReference: {fileID: 0}
     - target: {fileID: 694015015930602380, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -4.3
       objectReference: {fileID: 0}
     - target: {fileID: 694015015930602380, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1557,6 +1617,14 @@ PrefabInstance:
       propertyPath: turretController
       value: 
       objectReference: {fileID: 955083057}
+    - target: {fileID: 6176872781462561674, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 571301159}
+    - target: {fileID: 6176872781462561674, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+      propertyPath: <TargetShip>k__BackingField
+      value: 
+      objectReference: {fileID: 1575233997412907364}
     - target: {fileID: 6524947337860059823, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1580,7 +1648,7 @@ PrefabInstance:
     - target: {fileID: 9176735788339722306, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: shipController
       value: 
-      objectReference: {fileID: 1575834961}
+      objectReference: {fileID: 817112192}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2806,6 +2874,10 @@ PrefabInstance:
       propertyPath: turretController
       value: 
       objectReference: {fileID: 955083057}
+    - target: {fileID: 2218877396671205042, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6387302983885913410, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: m_Name
       value: PlayerHull
@@ -2974,3 +3046,4 @@ SceneRoots:
   - {fileID: 1297853811}
   - {fileID: 1067840123}
   - {fileID: 1819116109}
+  - {fileID: 571301158}

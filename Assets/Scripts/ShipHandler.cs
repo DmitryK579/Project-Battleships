@@ -13,6 +13,7 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 	[SerializeField] private float objectHeight = 1.0f;
 	private float currentHealth;
 
+	private Vector2 shipMovementVector = Vector2.zero;
 	private Rigidbody2D shipRigidbody2D;
 
 	private void Awake()
@@ -29,8 +30,8 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
     // Update is called once per frame
     void Update()
     {
-        
-    }
+		shipMovementVector = shipController.GetMovementInput();
+	}
 
 	void FixedUpdate()
 	{
@@ -40,13 +41,13 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 	}
 	void ApplyEngineForce()
 	{
-		Vector2 engineForceVector = transform.up * shipController.GetMovementInput().y * Ship.AccelerationFactor;
+		Vector2 engineForceVector = transform.up * shipMovementVector.y * Ship.AccelerationFactor;
 		shipRigidbody2D.AddForce(engineForceVector, ForceMode2D.Force);
 	}
 
 	void ApplyShipRotation()
 	{
-		var torque = -shipController.GetMovementInput().x * Ship.RotationFactor;
+		var torque = -shipMovementVector.x * Ship.RotationFactor;
 		shipRigidbody2D.AddTorque(torque, ForceMode2D.Force);
 	}
 
