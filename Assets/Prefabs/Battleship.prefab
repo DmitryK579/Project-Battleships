@@ -175,7 +175,11 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   shipController: {fileID: 9031656989928822207}
   turretController: {fileID: 2803065060321912607}
+  ownShip: {fileID: 9176735788339722306}
+  maxDecisionCooldownS: 60
+  minDecisionCooldownS: 20
   vectorChangeCooldownS: 10
+  beginTurretTargettingAtDistance: 750
   <TargetShip>k__BackingField: {fileID: 0}
 --- !u!1 &2715906931959816328
 GameObject:
@@ -507,13 +511,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbad34aeb811b64d8595f596f296fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipHandler
-  shipController: {fileID: 0}
+  cpuShipController: {fileID: 9031656989928822207}
   <Ship>k__BackingField: {fileID: 11400000, guid: aac308eb3ecfb204cb2ce7664c609d73, type: 2}
   primaryTurrets:
-  - {fileID: 83237490024605541}
-  - {fileID: 2096865510514004414}
-  - {fileID: 7010134496995029896}
-  - {fileID: 8266246137887108925}
+  - {fileID: 3213580158984802229}
+  - {fileID: 3505707324420766062}
+  - {fileID: 5545714556408994648}
+  - {fileID: 6847948901129226221}
   secondaryTurrets: []
   objectHeight: 1
 --- !u!60 &2669583120874552569
@@ -1052,6 +1056,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b702ab2fac61554b885614f4e9fdbac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CPUTurretController
+  leadTargetPerUnitDistance: 0.1
+  maxDispersion: 20
 --- !u!1001 &2762176503600618488
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1076,10 +1082,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: turretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
+    - target: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: cpuTurretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
+    - target: {fileID: 2975298740428320486, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: m_Name
+      value: Turret(2)
+      objectReference: {fileID: 0}
     - target: {fileID: 3013541591426156190, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: turretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
     - target: {fileID: 5830358620933239237, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1133,9 +1155,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
---- !u!114 &2096865510514004414 stripped
+--- !u!114 &3505707324420766062 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
   m_PrefabInstance: {fileID: 2762176503600618488}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -1295,10 +1317,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: turretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
+    - target: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: cpuTurretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
+    - target: {fileID: 2975298740428320486, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: m_Name
+      value: Turret(1)
+      objectReference: {fileID: 0}
     - target: {fileID: 3013541591426156190, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: turretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
     - target: {fileID: 5830358620933239237, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1352,9 +1390,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
---- !u!114 &83237490024605541 stripped
+--- !u!114 &3213580158984802229 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
   m_PrefabInstance: {fileID: 4209476939130760483}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -1388,10 +1426,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: turretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
+    - target: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: cpuTurretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
+    - target: {fileID: 2975298740428320486, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: m_Name
+      value: Turret(4)
+      objectReference: {fileID: 0}
     - target: {fileID: 3013541591426156190, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: turretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
     - target: {fileID: 5830358620933239237, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1450,9 +1504,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8337676910511477474, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
   m_PrefabInstance: {fileID: 5330911654060991867}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8266246137887108925 stripped
+--- !u!114 &6847948901129226221 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
   m_PrefabInstance: {fileID: 5330911654060991867}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -1485,10 +1539,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: turretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
+    - target: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: cpuTurretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
+    - target: {fileID: 2975298740428320486, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: m_Name
+      value: Turret(3)
+      objectReference: {fileID: 0}
     - target: {fileID: 3013541591426156190, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+      propertyPath: turretController
+      value: 
+      objectReference: {fileID: 2803065060321912607}
     - target: {fileID: 5830358620933239237, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1547,9 +1617,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8337676910511477474, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
   m_PrefabInstance: {fileID: 6486776485152995790}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7010134496995029896 stripped
+--- !u!114 &5545714556408994648 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4272975926620260934, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1653945700274021014, guid: fbbc33c01f838594e984e509d97daadd, type: 3}
   m_PrefabInstance: {fileID: 6486776485152995790}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

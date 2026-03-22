@@ -1,16 +1,31 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class CPUTurretController : MonoBehaviour
+public class CPUTurretController : TurretController
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+	[SerializeField] private float leadTargetPerUnitDistance;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private Vector3 targetCoordinates = Vector3.zero;
+	private float maxRange = 0f;
+	public override Vector3 GetTargetCoordinates()
+	{
+		return targetCoordinates;
+	}
+
+	public void Initialize(float turretMaxRange)
+	{
+		maxRange = turretMaxRange;
+	}
+	public void TargettingLogic(Vector3 coordinates, Vector3 direction)
+	{
+		float distanceToTarget = Vector2.Distance(targetCoordinates, transform.position);
+		targetCoordinates = coordinates + (direction * (leadTargetPerUnitDistance * distanceToTarget));
+
+		if (distanceToTarget <= maxRange)
+		{
+			Debug.Log(distanceToTarget);
+			InvokeOnShoot(EventArgs.Empty);
+		}
+	}
 }

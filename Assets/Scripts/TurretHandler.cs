@@ -8,12 +8,14 @@ using Random = UnityEngine.Random;
 public class TurretHandler : MonoBehaviour
 {
 	[Header("Scripts")]
-	[SerializeField] private TurretController turretController;
+	[SerializeField] private CPUTurretController cpuTurretController;
 	[Header("Turret settings")]
 	[SerializeField] private TurretScriptableObject turret;
 	[SerializeField] private List<Transform> shellSpawners;
     [SerializeField] private LineRenderer aimLine;
+    [SerializeField] private Transform idleTarget;
 
+	private TurretController currentTurretController;
 	private Vector3 targetCoordinates;
 	private Vector3 turretAim = Vector3.zero;
 	private bool drawLineToTarget = false;
@@ -23,6 +25,8 @@ public class TurretHandler : MonoBehaviour
 	private float initialLocalAngle;
 	private float facingThresholdDegrees = 1.0f;
 	private bool facingTarget = false;
+	private bool idle = true;
+	private bool isSimulationEnabled = false;
 
 	public event EventHandler OnShoot;
 	public event EventHandler OnFacingTarget;
@@ -34,6 +38,13 @@ public class TurretHandler : MonoBehaviour
 		public Vector3 collisionPosition;
 	}
 	public event EventHandler OnShellSimulationPass;
+
+	private void Awake()
+	{
+		currentTurretController = cpuTurretController;
+		cpuTurretController.Initialize(turret.MaxRange);
+	}
+
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	private void Start()
     {
@@ -44,15 +55,35 @@ public class TurretHandler : MonoBehaviour
 		if (initialLocalAngle > 180) 
 			initialLocalAngle -= 360f;
 
-		turretController.OnShoot += Shoot;
+		SubscribeToEvents();
 	}
 
-    // Update is called once per frame
-    private void Update()
+	private void OnDisable()
+	{
+		UnsubscribeFromEvents();
+	}
+
+	private void SubscribeToEvents()
+	{
+		currentTurretController.OnShoot += Shoot;
+		currentTurretController.OnIdle += Idle;
+		currentTurretController.OnNoLongerIdle += NoLongerIdle;
+	}
+
+	private void UnsubscribeFromEvents()
+	{
+		currentTurretController.OnShoot -= Shoot;
+		currentTurretController.OnIdle -= Idle;
+		currentTurretController.OnNoLongerIdle -= NoLongerIdle;
+	}
+
+	// Update is called once per frame
+	private void Update()
     {
 		RotateTurret();
 		DrawLine();
-		SimulateShell();
+		if (isSimulationEnabled)
+			SimulateShell();
 		if (reloadTimerS>0)
 			reloadTimerS -= Time.deltaTime;
 	}
@@ -79,7 +110,10 @@ public class TurretHandler : MonoBehaviour
 
 	private void RotateTurret()
 	{
-		targetCoordinates = turretController.GetTargetCoordinates();
+		if (!idle)
+			targetCoordinates = currentTurretController.GetTargetCoordinates();
+		else
+			targetCoordinates = idleTarget.transform.position;
 
 		Vector3 direction = targetCoordinates - transform.position;
 
@@ -128,7 +162,7 @@ public class TurretHandler : MonoBehaviour
 
 	private void Shoot(object sender, EventArgs e)
 	{
-		if (reloadTimerS > 0)
+		if (reloadTimerS > 0 || !facingTarget)
 		{
 			return;
 		}
@@ -199,5 +233,30 @@ public class TurretHandler : MonoBehaviour
 	public (float reloadTime, float reloadTimer) GetReloadTimeAndTimer()
 	{
 		return (turret.ReloadTimeS,reloadTimerS);
+	}
+
+	private void Idle(object sender, EventArgs e)
+	{
+		idle = true;
+	}
+	private void NoLongerIdle(object sender, EventArgs e)
+	{
+		idle = false;
+	}
+
+	public void ChangeControllerToPlayer(PlayerTurretController controller)
+	{
+		UnsubscribeFromEvents();
+		currentTurretController = controller;
+		SubscribeToEvents();
+		isSimulationEnabled = true;
+	}
+
+	public void ResetControllerToOwnCPU()
+	{
+		UnsubscribeFromEvents();
+		currentTurretController = cpuTurretController;
+		SubscribeToEvents();
+		isSimulationEnabled = false;
 	}
 }

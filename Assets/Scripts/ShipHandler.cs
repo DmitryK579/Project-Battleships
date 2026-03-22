@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 {
 	[Header("Scripts")]
-	[SerializeField] private ShipController shipController;
+	[SerializeField] private CPUShipController cpuShipController;
 	[Header("Ship settings")]
 	[field: SerializeField] public ShipScriptableObject Ship { get; private set; }
 	[SerializeField] private List<TurretHandler> primaryTurrets;
@@ -13,12 +13,14 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 	[SerializeField] private float objectHeight = 1.0f;
 	private float currentHealth;
 
+	private ShipController currentShipController;
 	private Vector2 shipMovementVector = Vector2.zero;
 	private Rigidbody2D shipRigidbody2D;
 
 	private void Awake()
 	{
 		shipRigidbody2D = GetComponent<Rigidbody2D>();
+		currentShipController = cpuShipController;
 	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,7 +32,7 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
     // Update is called once per frame
     void Update()
     {
-		shipMovementVector = shipController.GetMovementInput();
+		shipMovementVector = currentShipController.GetMovementInput();
 	}
 
 	void FixedUpdate()
@@ -80,5 +82,23 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 	public List<TurretHandler> GetControllableTurrets()
 	{
 		return primaryTurrets;
+	}
+
+	public void ChangeControllerToPlayer(PlayerShipController shipController, PlayerTurretController turretController)
+	{
+		currentShipController = shipController;
+		foreach (TurretHandler turret in primaryTurrets)
+		{
+			turret.ChangeControllerToPlayer(turretController);
+		}
+	}
+
+	public void ResetControllerToOwnCPU()
+	{
+		currentShipController = cpuShipController;
+		foreach (TurretHandler turret in primaryTurrets)
+		{
+			turret.ResetControllerToOwnCPU();
+		}
 	}
 }
