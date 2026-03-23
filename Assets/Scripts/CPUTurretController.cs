@@ -24,7 +24,6 @@ public class CPUTurretController : TurretController
 
 		if (distanceToTarget <= maxRange)
 		{
-			Debug.Log(distanceToTarget);
 			InvokeOnShoot(EventArgs.Empty);
 		}
 	}
