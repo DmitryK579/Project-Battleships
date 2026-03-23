@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 {
@@ -11,6 +13,9 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 	[SerializeField] private List<TurretHandler> primaryTurrets;
 	[SerializeField] private List<TurretHandler> secondaryTurrets;
 	[SerializeField] private float objectHeight = 1.0f;
+
+	[Header("Visual references")]
+	[SerializeField] private Image healthBar;
 	private float currentHealth;
 
 	private ShipController currentShipController;
@@ -100,5 +105,10 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 		{
 			turret.ResetControllerToOwnCPU();
 		}
+	}
+
+	public void ChangeHealthBarColor(Color color)
+	{
+		healthBar.color = color;
 	}
 }

@@ -257,6 +257,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""GameManager"",
+            ""id"": ""c9cac914-c34c-4ddc-b8ed-f68e0de0d649"",
+            ""actions"": [
+                {
+                    ""name"": ""SwapShip"",
+                    ""type"": ""Button"",
+                    ""id"": ""40a72b3b-5bd7-4fcd-9b27-7a323a9fc476"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3e119c6e-cc02-497a-8161-17b0c3ba08fb"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapShip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -271,6 +299,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Zoom = m_Camera.FindAction("Zoom", throwIfNotFound: true);
+        // GameManager
+        m_GameManager = asset.FindActionMap("GameManager", throwIfNotFound: true);
+        m_GameManager_SwapShip = m_GameManager.FindAction("SwapShip", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -278,6 +309,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_PlayerHull.enabled, "This will cause a leak and performance issues, PlayerInputActions.PlayerHull.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_PlayerTurret.enabled, "This will cause a leak and performance issues, PlayerInputActions.PlayerTurret.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Camera.enabled, "This will cause a leak and performance issues, PlayerInputActions.Camera.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_GameManager.enabled, "This will cause a leak and performance issues, PlayerInputActions.GameManager.Disable() has not been called.");
     }
 
     /// <summary>
@@ -648,6 +680,102 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="CameraActions" /> instance referencing this action map.
     /// </summary>
     public CameraActions @Camera => new CameraActions(this);
+
+    // GameManager
+    private readonly InputActionMap m_GameManager;
+    private List<IGameManagerActions> m_GameManagerActionsCallbackInterfaces = new List<IGameManagerActions>();
+    private readonly InputAction m_GameManager_SwapShip;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "GameManager".
+    /// </summary>
+    public struct GameManagerActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public GameManagerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "GameManager/SwapShip".
+        /// </summary>
+        public InputAction @SwapShip => m_Wrapper.m_GameManager_SwapShip;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_GameManager; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="GameManagerActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(GameManagerActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="GameManagerActions" />
+        public void AddCallbacks(IGameManagerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GameManagerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GameManagerActionsCallbackInterfaces.Add(instance);
+            @SwapShip.started += instance.OnSwapShip;
+            @SwapShip.performed += instance.OnSwapShip;
+            @SwapShip.canceled += instance.OnSwapShip;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="GameManagerActions" />
+        private void UnregisterCallbacks(IGameManagerActions instance)
+        {
+            @SwapShip.started -= instance.OnSwapShip;
+            @SwapShip.performed -= instance.OnSwapShip;
+            @SwapShip.canceled -= instance.OnSwapShip;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GameManagerActions.UnregisterCallbacks(IGameManagerActions)" />.
+        /// </summary>
+        /// <seealso cref="GameManagerActions.UnregisterCallbacks(IGameManagerActions)" />
+        public void RemoveCallbacks(IGameManagerActions instance)
+        {
+            if (m_Wrapper.m_GameManagerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="GameManagerActions.AddCallbacks(IGameManagerActions)" />
+        /// <seealso cref="GameManagerActions.RemoveCallbacks(IGameManagerActions)" />
+        /// <seealso cref="GameManagerActions.UnregisterCallbacks(IGameManagerActions)" />
+        public void SetCallbacks(IGameManagerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GameManagerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GameManagerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="GameManagerActions" /> instance referencing this action map.
+    /// </summary>
+    public GameManagerActions @GameManager => new GameManagerActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PlayerHull" which allows adding and removing callbacks.
     /// </summary>
@@ -699,5 +827,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnZoom(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "GameManager" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="GameManagerActions.AddCallbacks(IGameManagerActions)" />
+    /// <seealso cref="GameManagerActions.RemoveCallbacks(IGameManagerActions)" />
+    public interface IGameManagerActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "SwapShip" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwapShip(InputAction.CallbackContext context);
     }
 }

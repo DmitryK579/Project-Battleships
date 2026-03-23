@@ -171,6 +171,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "GameManager",
+            "id": "c9cac914-c34c-4ddc-b8ed-f68e0de0d649",
+            "actions": [
+                {
+                    "name": "SwapShip",
+                    "type": "Button",
+                    "id": "40a72b3b-5bd7-4fcd-9b27-7a323a9fc476",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3e119c6e-cc02-497a-8161-17b0c3ba08fb",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapShip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
