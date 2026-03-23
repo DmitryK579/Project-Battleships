@@ -148,7 +148,8 @@ public class TurretHandler : MonoBehaviour
 		transform.localRotation = Quaternion.Euler(0, 0, finalAngle);
 
 		//Check whether the turret is facing the target.
-		if (Mathf.Abs(Mathf.DeltaAngle(finalAngle, localTargetAngle)) < facingThresholdDegrees)
+		if (Mathf.Abs(Mathf.DeltaAngle(finalAngle, localTargetAngle)) < facingThresholdDegrees &&
+			Vector2.Distance(transform.position, targetCoordinates) <= turret.MaxRange)
 		{
 			facingTarget = true;
 			OnFacingTarget?.Invoke(this, EventArgs.Empty);
@@ -250,6 +251,7 @@ public class TurretHandler : MonoBehaviour
 		currentTurretController = controller;
 		SubscribeToEvents();
 		isSimulationEnabled = true;
+		idle = false;
 	}
 
 	public void ResetControllerToOwnCPU()
