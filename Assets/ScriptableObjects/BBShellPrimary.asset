@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: BBShellPrimary
   m_EditorClassIdentifier: Assembly-CSharp::ShellScriptableObject
   <Prefab>k__BackingField: {fileID: 8046911100106498915, guid: 6825c7f250f6d06469e8bf728c9fb14b, type: 3}
-  <Damage>k__BackingField: 30
-  <Speed>k__BackingField: 10
+  <Damage>k__BackingField: 500
+  <Speed>k__BackingField: 25
   <ExplosionRadius>k__BackingField: 3
   <MaxHeight>k__BackingField: 20
-  <ArmingTimeS>k__BackingField: 1
+  <ArmingTimeS>k__BackingField: 0.5
   <FloatTimeS>k__BackingField: 1.5

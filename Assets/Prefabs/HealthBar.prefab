@@ -63,6 +63,7 @@ MonoBehaviour:
   <TrackedShip>k__BackingField: {fileID: 0}
   healthBar: {fileID: 196142132773752161}
   healthText: {fileID: 1262786657065792605}
+  disappearOnDeplete: 0
 --- !u!1 &5575850501051031505
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,6 +348,6 @@ MonoBehaviour:
   m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 1
+  m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
