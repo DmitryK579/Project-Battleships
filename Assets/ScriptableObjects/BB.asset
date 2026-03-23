@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BB
   m_EditorClassIdentifier: Assembly-CSharp::ShipScriptableObject
   <Health>k__BackingField: 60000
-  <AccelerationFactor>k__BackingField: 0.1
-  <RotationFactor>k__BackingField: 1
+  <AccelerationFactor>k__BackingField: 0.15
+  <RotationFactor>k__BackingField: 0.8
   <DriftFactor>k__BackingField: 0.95
