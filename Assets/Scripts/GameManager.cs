@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         if (enablePlayer)
         {
             PlayerShip.ChangeControllerToPlayer(playerShipController, playerTurretController);
-            PlayerShip.OnZeroHealth += OnPlayerShipDestroyed;
+            SubscribeToPlayerShipEvents();
         }
 
         if (teamA.Contains(PlayerShip))
@@ -60,8 +60,7 @@ public class GameManager : MonoBehaviour
 
         if (PlayerShip != null)
         {
-            PlayerShip.OnZeroHealth -= OnPlayerShipDestroyed;
-
+            UnsubscribeFromPlayerShipEvents();
 		}
 	}
 
@@ -114,11 +113,13 @@ public class GameManager : MonoBehaviour
 
 		if (playerShipDestroyed)
 			playerShipDestroyed = false;
-
-		PlayerShip.ResetControllerToOwnCPU();
+        
+        PlayerShip.ResetControllerToOwnCPU();
+        UnsubscribeFromPlayerShipEvents();
 
         PlayerShip = playerTeam[nextIndex];
-		PlayerShip.ChangeControllerToPlayer(playerShipController, playerTurretController);
+        PlayerShip.ChangeControllerToPlayer(playerShipController, playerTurretController);
+        SubscribeToPlayerShipEvents();
 		OnPlayerShipSwap?.Invoke(this, EventArgs.Empty);
 
 		playerShipIndex = nextIndex;
@@ -145,8 +146,18 @@ public class GameManager : MonoBehaviour
 
     private void OnPlayerShipDestroyed(object sender, EventArgs e)
     {
-        PlayerShip.OnZeroHealth -= OnPlayerShipDestroyed;
+        UnsubscribeFromPlayerShipEvents();
         playerShipDestroyed = true;
         forceSwapAfterDestructionTimer = timeToForceSwapAfterDestructionS;
     }
+
+    private void UnsubscribeFromPlayerShipEvents()
+    {
+		PlayerShip.OnZeroHealth -= OnPlayerShipDestroyed;
+	}
+
+	private void SubscribeToPlayerShipEvents()
+    {
+		PlayerShip.OnZeroHealth += OnPlayerShipDestroyed;
+	}
 }
