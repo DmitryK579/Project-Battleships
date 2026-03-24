@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 676c0c5d74c788042a122384deff7510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurretStatusManager
+  gameManager: {fileID: 571301159}
   <TrackedShip>k__BackingField: {fileID: 1575233997412907364}
   turretStatusCirclePrefab: {fileID: 4876433384504089591, guid: 47c17a24acbbe9840a153f7609f299cd, type: 3}
   turretSimulationTrackerPrefab: {fileID: 421966344891021844, guid: 4d6a1b501aec3b849b397915e5361cbc, type: 3}
@@ -893,7 +894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerShipController: {fileID: 1575834961}
   playerTurretController: {fileID: 955083057}
-  playerShip: {fileID: 1575233997412907364}
+  <PlayerShip>k__BackingField: {fileID: 1575233997412907364}
   teamA:
   - {fileID: 1575233997412907364}
   - {fileID: 1969024900}
@@ -902,6 +903,7 @@ MonoBehaviour:
   - {fileID: 758632796}
   - {fileID: 340453161}
   - {fileID: 1397127308}
+  timeToForceSwapAfterDestructionS: 5
   enablePlayer: 1
 --- !u!1 &619394800
 GameObject:
@@ -3351,6 +3353,10 @@ PrefabInstance:
     - target: {fileID: 2218877396671205042, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2259628194705395060, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+      propertyPath: m_DrawMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5519444679826516082, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: m_RotationOffset.z
