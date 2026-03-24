@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 676c0c5d74c788042a122384deff7510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurretStatusManager
-  <TrackedShip>k__BackingField: {fileID: 1575233997412907364}
+  gameManager: {fileID: 571301159}
   turretStatusCirclePrefab: {fileID: 4876433384504089591, guid: 47c17a24acbbe9840a153f7609f299cd, type: 3}
   turretSimulationTrackerPrefab: {fileID: 421966344891021844, guid: 4d6a1b501aec3b849b397915e5361cbc, type: 3}
   initialXOffset: -45
@@ -893,7 +893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerShipController: {fileID: 1575834961}
   playerTurretController: {fileID: 955083057}
-  playerShip: {fileID: 1575233997412907364}
+  <PlayerShip>k__BackingField: {fileID: 1575233997412907364}
   teamA:
   - {fileID: 1575233997412907364}
   - {fileID: 1969024900}
@@ -902,6 +902,7 @@ MonoBehaviour:
   - {fileID: 758632796}
   - {fileID: 340453161}
   - {fileID: 1397127308}
+  timeToForceSwapAfterDestructionS: 5
   enablePlayer: 1
 --- !u!1 &619394800
 GameObject:
@@ -2282,7 +2283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f76c250eaf616614ebc794d7956d5022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipStatus
-  <TrackedShip>k__BackingField: {fileID: 1575233997412907364}
+  gameManager: {fileID: 571301159}
   hullIcon: {fileID: 2126893318}
   turretIcons:
   - {fileID: 750974840}
@@ -3210,6 +3211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19824931b5269744b9cb4f725d61228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraHandler
+  gameManager: {fileID: 571301159}
   anchorObject: {fileID: 1575233997412907365}
   zoomSpeed: 20
   zoomLerpSpeed: 10
@@ -3351,6 +3353,10 @@ PrefabInstance:
     - target: {fileID: 2218877396671205042, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2259628194705395060, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
+      propertyPath: m_DrawMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5519444679826516082, guid: 62f9314cd397d1841a7117d1a638f7c8, type: 3}
       propertyPath: m_RotationOffset.z
