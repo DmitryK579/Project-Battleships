@@ -38,6 +38,9 @@ public class TurretStatusCircle : MonoBehaviour
     {
 		if (reloading)
 		{
+			if (TrackedTurret == null)
+				return;
+
 			(float reloadTime, float reloadTimer) = TrackedTurret.GetReloadTimeAndTimer();
 			progressImage.fillAmount = (reloadTime - reloadTimer) / reloadTime;
 			if (progressImage.fillAmount == 1)

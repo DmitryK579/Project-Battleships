@@ -17,8 +17,10 @@ public class ShipStatus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (TrackedShip == null)
+            return;
+        
         hullIcon.transform.rotation = TrackedShip.transform.rotation;
-
         for (int i = 0; i < turretIcons.Count; i++)
         {
             turretIcons[i].transform.rotation = controllableTurrets[i].transform.rotation;
