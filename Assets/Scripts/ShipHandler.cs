@@ -74,7 +74,7 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 
 	public void Damage(float damage)
 	{
-		currentHealth -= damage*10;
+		currentHealth -= damage;
 		if (currentHealth <= 0)
 		{
 			currentHealth = 0;
