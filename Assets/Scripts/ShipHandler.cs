@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,6 +22,10 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 	private ShipController currentShipController;
 	private Vector2 shipMovementVector = Vector2.zero;
 	private Rigidbody2D shipRigidbody2D;
+
+	public event EventHandler OnCriticallyDamaged;
+	private bool invokedOnCriticallyDamaged;
+	public event EventHandler OnZeroHealth;
 
 	private void Awake()
 	{
@@ -70,8 +75,21 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
 	public void Damage(float damage)
 	{
 		currentHealth -= damage;
-		if (currentHealth < 0)
+		if (currentHealth <= 0)
+		{
 			currentHealth = 0;
+			OnZeroHealth?.Invoke(this, EventArgs.Empty);
+			Destroy(transform.parent.gameObject);
+		}
+		
+		if (!invokedOnCriticallyDamaged)
+		{
+			if (currentHealth < (Ship.Health/4))
+			{
+				OnCriticallyDamaged?.Invoke(this, EventArgs.Empty);
+				invokedOnCriticallyDamaged = true;
+			}
+		}
 	}
 
 	public float GetObjectHeight()

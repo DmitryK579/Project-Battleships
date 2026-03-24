@@ -36,6 +36,9 @@ public class CameraHandler : MonoBehaviour
 
     private void TargetToAnchor()
     {
+        if (anchorObject == null)
+            return;
+        
         cam.Target.TrackingTarget.transform.position = anchorObject.position;
     }
     private void HandleZoom()

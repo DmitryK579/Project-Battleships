@@ -50,7 +50,7 @@ public class CPULogic : MonoBehaviour
     void Update()
     {
 		if (TargetShip == null)
-			return;
+			MakeDecisions();
 
 		decisionTimer -= Time.deltaTime;
 		if (decisionTimer <= 0f)
@@ -69,6 +69,9 @@ public class CPULogic : MonoBehaviour
 		float closestDitanceToTarget = 0;
 		foreach (ShipHandler target in validTargets)
 		{
+			if (target == null) 
+				continue;
+
 			float distance = Vector2.Distance(target.gameObject.transform.position, transform.position);
 			if (closestDitanceToTarget == 0 || distance < closestDitanceToTarget)
 			{
@@ -127,6 +130,12 @@ public class CPULogic : MonoBehaviour
 
 	private void UpdateMovementState()
 	{
+		if (TargetShip == null)
+		{
+			movementState = MovementStates.Idle;
+			return;
+		}
+
 		if (Vector3.Distance(transform.position, TargetShip.transform.position) > (beginTurretTargettingAtDistance / 2))
 			movementState = MovementStates.MoveToTarget;
 		else
@@ -135,6 +144,12 @@ public class CPULogic : MonoBehaviour
 
 	private void UpdateTurretState()
 	{
+		if (TargetShip == null)
+		{
+			SetTurretsToIdle();
+			return;
+		}
+
 		if (Vector3.Distance(transform.position, TargetShip.transform.position) > beginTurretTargettingAtDistance)
 			SetTurretsToIdle();
 		else
