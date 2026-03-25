@@ -3521,6 +3521,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8820301705176719072, guid: e68e54323bb755f41ac99cb7ec24f319, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 571301159}
+    - target: {fileID: 8820301705176719072, guid: e68e54323bb755f41ac99cb7ec24f319, type: 3}
+      propertyPath: trackedShip
+      value: 
+      objectReference: {fileID: 1575233997412907364}
+    - target: {fileID: 8820301705176719072, guid: e68e54323bb755f41ac99cb7ec24f319, type: 3}
       propertyPath: <TrackedShip>k__BackingField
       value: 
       objectReference: {fileID: 1575233997412907364}
