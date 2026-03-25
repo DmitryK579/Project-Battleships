@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 89536526973403754}
   - component: {fileID: 2259628194705395060}
+  - component: {fileID: 1894544498213481694}
   m_Layer: 6
   m_Name: HullSprite
   m_TagString: Untagged
@@ -91,6 +92,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1894544498213481694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496987185285420966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6400b17e7e29d94439249909cd406e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipVisual
+  explosionPrefab: {fileID: 8006338217130897728, guid: c1949e1b3e339ba449e7a67885cce004, type: 3}
 --- !u!1 &889262811790489442
 GameObject:
   m_ObjectHideFlags: 0

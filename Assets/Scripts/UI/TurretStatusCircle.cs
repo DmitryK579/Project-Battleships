@@ -31,7 +31,7 @@ public class TurretStatusCircle : MonoBehaviour
 
 	// Update is called once per frame
 	private void Update()
-    {
+  {
 		if (reloading)
 		{
 			if (TrackedTurret == null)
@@ -39,7 +39,7 @@ public class TurretStatusCircle : MonoBehaviour
 
 			FillImageByReload();
 		}
-    }
+  }
 
 	public void Initialize(TurretHandler turretToTrack)
 	{
