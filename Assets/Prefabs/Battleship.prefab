@@ -1298,6 +1298,10 @@ PrefabInstance:
       value: HealthBarImage
       objectReference: {fileID: 0}
     - target: {fileID: 8820301705176719072, guid: e68e54323bb755f41ac99cb7ec24f319, type: 3}
+      propertyPath: trackedShip
+      value: 
+      objectReference: {fileID: 9176735788339722306}
+    - target: {fileID: 8820301705176719072, guid: e68e54323bb755f41ac99cb7ec24f319, type: 3}
       propertyPath: disappearOnDeplete
       value: 1
       objectReference: {fileID: 0}

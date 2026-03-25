@@ -1,25 +1,40 @@
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class HealthBar : MonoBehaviour
 {
-    [field: SerializeField] public ShipHandler TrackedShip {get; private set; }
+    [SerializeField] private ShipHandler trackedShip;
     [SerializeField] private Image healthBar;
     [SerializeField] private TextMeshProUGUI healthText;
-    [SerializeField] private bool disappearOnDeplete;
+
+    [Header("Optional settings")]
+	[SerializeField] private GameManager gameManager;
+	[SerializeField] private bool disappearOnDeplete;
 
     float maxHealth;
     float currentHealth;
     void Start()
     {
+        if (gameManager != null)
+        {
+            gameManager.OnPlayerShipSwap += OnPlayerShipSwap;
+            trackedShip = gameManager.PlayerShip;
+        }
         Initialize();
     }
 
-    // Update is called once per frame
-    void Update()
+	private void OnDisable()
+	{
+        if (gameManager != null)
+		    gameManager.OnPlayerShipSwap -= OnPlayerShipSwap;
+	}
+
+	// Update is called once per frame
+	void Update()
     {
-        currentHealth = TrackedShip.GetCurrentHealth();
+        currentHealth = trackedShip.GetCurrentHealth();
         healthBar.fillAmount = (currentHealth / maxHealth);
         if (healthText.IsActive())
             healthText.text = currentHealth.ToString() + " / " + maxHealth.ToString();
@@ -33,6 +48,12 @@ public class HealthBar : MonoBehaviour
 
     void Initialize()
     {
-        maxHealth = TrackedShip.Ship.Health;
+        maxHealth = trackedShip.Ship.Health;
+    }
+
+	private void OnPlayerShipSwap(object sender, EventArgs e)
+    {
+        trackedShip = gameManager.PlayerShip;
+        Initialize();
     }
 }
