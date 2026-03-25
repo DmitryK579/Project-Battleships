@@ -9,8 +9,6 @@ public class TurretSimulationTracker : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
     {
-		TrackedTurret.OnShellSimulationCollision += OnTurretShellSimulationCollision;
-		TrackedTurret.OnShellSimulationPass += OnTurretShellSimulationPass;
 	}
 
 	private void OnDisable()
@@ -23,6 +21,14 @@ public class TurretSimulationTracker : MonoBehaviour
     {
         
     }
+
+	public void Initialize(TurretHandler turret)
+	{
+		TrackedTurret = turret;
+
+		TrackedTurret.OnShellSimulationCollision += OnTurretShellSimulationCollision;
+		TrackedTurret.OnShellSimulationPass += OnTurretShellSimulationPass;
+	}
 
 	private void OnTurretShellSimulationPass(object sender, EventArgs e)
 	{

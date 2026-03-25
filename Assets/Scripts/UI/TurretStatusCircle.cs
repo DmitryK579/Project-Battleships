@@ -15,14 +15,10 @@ public class TurretStatusCircle : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-		TrackedTurret.OnShoot += OnTurretShoot;
-		TrackedTurret.OnFacingTarget += OnTurretFacingTarget;
-		TrackedTurret.OnNoLongerFacingTarget += OnTurretNoLongerFacingTarget;
-		TrackedTurret.OnShellSimulationCollision += OnTurretShellSimulationCollision;
-		TrackedTurret.OnShellSimulationPass += OnTurretShellSimulationPass;
-		progressImage = GetComponent<Image>();
-		ChangeImageColour();
+		
 	}
+
+
 
 	private void OnDisable()
 	{
@@ -35,21 +31,43 @@ public class TurretStatusCircle : MonoBehaviour
 
 	// Update is called once per frame
 	private void Update()
-    {
+  {
 		if (reloading)
 		{
 			if (TrackedTurret == null)
 				return;
 
-			(float reloadTime, float reloadTimer) = TrackedTurret.GetReloadTimeAndTimer();
-			progressImage.fillAmount = (reloadTime - reloadTimer) / reloadTime;
-			if (progressImage.fillAmount == 1)
-			{
-				reloading = false;
-				ChangeImageColour();
-			}
+			FillImageByReload();
 		}
-    }
+  }
+
+	public void Initialize(TurretHandler turretToTrack)
+	{
+		TrackedTurret = turretToTrack;
+		TrackedTurret.OnShoot += OnTurretShoot;
+		TrackedTurret.OnFacingTarget += OnTurretFacingTarget;
+		TrackedTurret.OnNoLongerFacingTarget += OnTurretNoLongerFacingTarget;
+		TrackedTurret.OnShellSimulationCollision += OnTurretShellSimulationCollision;
+		TrackedTurret.OnShellSimulationPass += OnTurretShellSimulationPass;
+
+		progressImage = GetComponent<Image>();
+		ChangeImageColour();
+		FillImageByReload();
+	}
+
+	private void FillImageByReload()
+	{
+		if (!reloading)
+			reloading = true;
+
+		(float reloadTime, float reloadTimer) = TrackedTurret.GetReloadTimeAndTimer();
+		progressImage.fillAmount = (reloadTime - reloadTimer) / reloadTime;
+		if (progressImage.fillAmount == 1)
+		{
+			reloading = false;
+			ChangeImageColour();
+		}
+	}
 
 	private void OnTurretShoot(object sender, EventArgs e)
 	{

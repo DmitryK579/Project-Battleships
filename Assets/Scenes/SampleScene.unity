@@ -207,7 +207,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurretStatusManager
   gameManager: {fileID: 571301159}
-  <TrackedShip>k__BackingField: {fileID: 1575233997412907364}
   turretStatusCirclePrefab: {fileID: 4876433384504089591, guid: 47c17a24acbbe9840a153f7609f299cd, type: 3}
   turretSimulationTrackerPrefab: {fileID: 421966344891021844, guid: 4d6a1b501aec3b849b397915e5361cbc, type: 3}
   initialXOffset: -45
@@ -2284,7 +2283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f76c250eaf616614ebc794d7956d5022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipStatus
-  <TrackedShip>k__BackingField: {fileID: 1575233997412907364}
+  gameManager: {fileID: 571301159}
   hullIcon: {fileID: 2126893318}
   turretIcons:
   - {fileID: 750974840}
@@ -3212,6 +3211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19824931b5269744b9cb4f725d61228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraHandler
+  gameManager: {fileID: 571301159}
   anchorObject: {fileID: 1575233997412907365}
   zoomSpeed: 20
   zoomLerpSpeed: 10

@@ -1,10 +1,12 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TurretStatusManager : MonoBehaviour
 {
-	[field: SerializeField] public ShipHandler TrackedShip { get; set; }
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject turretStatusCirclePrefab;
     [SerializeField] private GameObject turretSimulationTrackerPrefab;
     [SerializeField] private float initialXOffset;
@@ -19,9 +21,8 @@ public class TurretStatusManager : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	private void Start()
     {
-        turretStatusCircles = new List<GameObject>();
-		turretSimulationTrackers = new List<GameObject>();
 		Initialize();
+        gameManager.OnPlayerShipSwap += OnPlayerShipSwap;
     }
 
     // Update is called once per frame
@@ -30,20 +31,25 @@ public class TurretStatusManager : MonoBehaviour
         
     }
 
-    private void Initialize()
-    {
-        if (turretStatusCircles.Count == 0)
-        {
-            newCirclePosition = new Vector3(initialXOffset, initialYOffset, 0);
-        }
+	private void OnDisable()
+	{
+		gameManager.OnPlayerShipSwap -= OnPlayerShipSwap;
+	}
 
-        List<TurretHandler> turretsToTrack = TrackedShip.GetControllableTurrets();
+	private void Initialize()
+    {
+
+		turretStatusCircles = new List<GameObject>();
+		turretSimulationTrackers = new List<GameObject>();
+		newCirclePosition = new Vector3(initialXOffset, initialYOffset, 0);
+
+        List<TurretHandler> turretsToTrack = gameManager.PlayerShip.GetControllableTurrets();
         for (int i = 0; i < turretsToTrack.Count; i++)
         {
             GameObject turretStatusCircle = Instantiate(turretStatusCirclePrefab, this.transform);
             turretStatusCircle.transform.localPosition = newCirclePosition;
             TurretStatusCircle statusScript = turretStatusCircle.GetComponent<TurretStatusCircle>();
-			statusScript.TrackedTurret = turretsToTrack[i];
+            statusScript.Initialize(turretsToTrack[i]);
             
             turretStatusCircles.Add(turretStatusCircle);
             newCirclePosition.x += xStep;
@@ -55,8 +61,18 @@ public class TurretStatusManager : MonoBehaviour
 
             GameObject turretSimulationTracker = Instantiate(turretSimulationTrackerPrefab, this.transform);
             TurretSimulationTracker trackerScript = turretSimulationTracker.GetComponent<TurretSimulationTracker>();
-			trackerScript.TrackedTurret = turretsToTrack[i];
+			trackerScript.Initialize(turretsToTrack[i]);
 			turretSimulationTrackers.Add(turretSimulationTracker);
         }
+    }
+
+    private void OnPlayerShipSwap(object sender, EventArgs e)
+    {
+        foreach (Transform child in this.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        Initialize();
     }
 }
