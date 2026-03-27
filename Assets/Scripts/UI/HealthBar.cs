@@ -10,25 +10,25 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthText;
 
     [Header("Optional settings")]
-	[SerializeField] private GameManager gameManager;
+	[SerializeField] private bool useGameManager;
 	[SerializeField] private bool disappearOnDeplete;
 
     float maxHealth;
     float currentHealth;
     void Start()
     {
-        if (gameManager != null)
+        if (useGameManager)
         {
-            gameManager.OnPlayerShipSwap += OnPlayerShipSwap;
-            trackedShip = gameManager.PlayerShip;
+			GameManager.Instance.OnPlayerShipSwap += OnPlayerShipSwap;
+            trackedShip = GameManager.Instance.PlayerShip;
         }
         Initialize();
     }
 
 	private void OnDisable()
 	{
-        if (gameManager != null)
-		    gameManager.OnPlayerShipSwap -= OnPlayerShipSwap;
+        if (useGameManager)
+			GameManager.Instance.OnPlayerShipSwap -= OnPlayerShipSwap;
 	}
 
 	// Update is called once per frame
@@ -53,7 +53,7 @@ public class HealthBar : MonoBehaviour
 
 	private void OnPlayerShipSwap(object sender, EventArgs e)
     {
-        trackedShip = gameManager.PlayerShip;
+        trackedShip = GameManager.Instance.PlayerShip;
         Initialize();
     }
 }

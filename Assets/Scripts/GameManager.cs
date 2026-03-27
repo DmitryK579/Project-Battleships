@@ -21,13 +21,83 @@ public class GameManager : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool enablePlayer;
 
+    public enum GameState
+    {
+        PreCountdown,
+        Countdown,
+        Playing,
+        Paused,
+        BattleEnd
+    }
+
+    public static GameManager Instance { get; private set; } 
+
+    private GameState gameState = GameState.PreCountdown;
+
+    private class GameStateTimerHandler
+    {
+        private float preCountdownTimeS = 1f;
+		private float countdownTimeS = 5f;
+		private float battleEndTimeS = 10f;
+
+        public float Timer { get; private set; } = 0f;
+
+        public void SetTimerByGameState(GameState state)
+        {
+            switch (state)
+            {
+                case GameState.PreCountdown:
+                    {
+                        Timer = preCountdownTimeS;
+                        break;
+                    }
+                case GameState.Countdown:
+                    {
+						Timer = countdownTimeS;
+                        break;
+                    }
+                case GameState.Playing:
+                    {
+                        Timer = 0f;
+                        break;
+                    }
+                case GameState.BattleEnd:
+                    {
+						Timer = battleEndTimeS;
+                        break;
+                    }
+            }
+        }
+
+        public void TickDown(float time)
+        {
+            Timer -= time;
+            if (Timer < 0f)
+                Timer = 0f;
+        }
+    }
+
+    private GameStateTimerHandler gameStateTimerHandler = new GameStateTimerHandler();
+
     private int playerShipIndex = 0;
     private List<ShipHandler> playerTeam;
 
     private bool playerShipDestroyed = false;
     private float forceSwapAfterDestructionTimer = 0f;
 
+    private int teamADestroyed = 0;
+    private int teamBDestroyed = 0;
+    private bool playerTeamWon = false;
+
     public event EventHandler OnPlayerShipSwap;
+    public event EventHandler OnCountdownBegin;
+    public event EventHandler OnCountdownEnd;
+    public event EventHandler OnBattleEnd;
+
+	private void Awake()
+	{
+		Instance = this;
+	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -51,6 +121,18 @@ public class GameManager : MonoBehaviour
             ChangeHealthBarColours(teamB, teamA);
             playerTeam = teamB;
 		}
+
+        foreach(ShipHandler ship in teamA)
+        {
+            ship.OnZeroHealth += OnTeamAShipDestroyed;
+        }
+		foreach (ShipHandler ship in teamB)
+		{
+			ship.OnZeroHealth += OnTeamBShipDestroyed;
+		}
+
+		gameState = GameState.PreCountdown;
+        gameStateTimerHandler.SetTimerByGameState(gameState);
     }
 
 	private void OnDisable() 
@@ -64,19 +146,76 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	// Update is called once per frame
-	void Update()
+    // Update is called once per frame
+    void Update()
     {
-        if (playerShipDestroyed)
+        SwapIfPlayerShipDestroyed();
+
+        if (gameState != GameState.BattleEnd)
         {
-            forceSwapAfterDestructionTimer -= Time.deltaTime;
-            if (forceSwapAfterDestructionTimer <= 0)
+            if (teamADestroyed == teamA.Count)
             {
-                SwapPlayerShip();
+                BattleEnd(teamA);
             }
+
+            if (teamBDestroyed == teamB.Count)
+            {
+                BattleEnd(teamB);
+            }
+        }
+
+        if (gameState == GameState.Playing)
+            return;
+
+        gameStateTimerHandler.TickDown(Time.deltaTime);
+        if (gameStateTimerHandler.Timer == 0f)
+        {
+            switch (gameState)
+            {
+                case GameState.PreCountdown:
+                    {
+                        gameState = GameState.Countdown;
+                        OnCountdownBegin?.Invoke(this, EventArgs.Empty);
+                        break;
+                    }
+                case GameState.Countdown:
+                    {
+                        gameState = GameState.Playing;
+                        OnCountdownEnd?.Invoke(this, EventArgs.Empty);
+                        break;
+                    }
+                case GameState.BattleEnd:
+                    {
+                        Loader.Load(Loader.Scene.MainMenuScene);
+                        break;
+                    }
+            }
+            gameStateTimerHandler.SetTimerByGameState(gameState);
         }
     }
 
+    private void BattleEnd(List<ShipHandler> team)
+    {
+        if (team == playerTeam)
+            playerTeamWon = false;
+        else
+            playerTeamWon = true;
+
+		gameState = GameState.BattleEnd;
+        gameStateTimerHandler.SetTimerByGameState(gameState);
+        OnBattleEnd?.Invoke(this, EventArgs.Empty);
+	}
+    private void SwapIfPlayerShipDestroyed()
+    {
+		if (playerShipDestroyed)
+		{
+			forceSwapAfterDestructionTimer -= Time.deltaTime;
+			if (forceSwapAfterDestructionTimer <= 0)
+			{
+				SwapPlayerShip();
+			}
+		}
+	}
     public List<ShipHandler> GetTargetShips(ShipHandler caller)
     {
         if (teamA.Contains(caller))
@@ -151,7 +290,26 @@ public class GameManager : MonoBehaviour
         forceSwapAfterDestructionTimer = timeToForceSwapAfterDestructionS;
     }
 
-    private void UnsubscribeFromPlayerShipEvents()
+	private void OnTeamAShipDestroyed(object sender, EventArgs e)
+	{
+		if (sender is ShipHandler ship)
+        {
+            ship.OnZeroHealth -= OnTeamAShipDestroyed;
+            teamADestroyed++;
+            return;
+        }
+	}
+	private void OnTeamBShipDestroyed(object sender, EventArgs e)
+	{
+		if (sender is ShipHandler ship)
+		{
+			ship.OnZeroHealth -= OnTeamBShipDestroyed;
+			teamBDestroyed++;
+            return;
+		}
+	}
+
+	private void UnsubscribeFromPlayerShipEvents()
     {
 		PlayerShip.OnZeroHealth -= OnPlayerShipDestroyed;
 	}
@@ -160,4 +318,21 @@ public class GameManager : MonoBehaviour
     {
 		PlayerShip.OnZeroHealth += OnPlayerShipDestroyed;
 	}
+
+    public GameState GetGameState()
+    {
+        return gameState;
+    }
+
+    public float GetCountdownTimer()
+    {
+        if (gameState == GameState.Countdown)
+            return gameStateTimerHandler.Timer;
+        return 0;
+    }
+
+    public bool GetPlayerWon()
+    {
+        return playerTeamWon;
+    }
 }
