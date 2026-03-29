@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class TurretStatusManager : MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject turretStatusCirclePrefab;
     [SerializeField] private GameObject turretSimulationTrackerPrefab;
     [SerializeField] private float initialXOffset;
@@ -22,7 +21,7 @@ public class TurretStatusManager : MonoBehaviour
 	private void Start()
     {
 		Initialize();
-        gameManager.OnPlayerShipSwap += OnPlayerShipSwap;
+		GameManager.Instance.OnPlayerShipSwap += OnPlayerShipSwap;
     }
 
     // Update is called once per frame
@@ -33,7 +32,7 @@ public class TurretStatusManager : MonoBehaviour
 
 	private void OnDisable()
 	{
-		gameManager.OnPlayerShipSwap -= OnPlayerShipSwap;
+		GameManager.Instance.OnPlayerShipSwap -= OnPlayerShipSwap;
 	}
 
 	private void Initialize()
@@ -43,7 +42,7 @@ public class TurretStatusManager : MonoBehaviour
 		turretSimulationTrackers = new List<GameObject>();
 		newCirclePosition = new Vector3(initialXOffset, initialYOffset, 0);
 
-        List<TurretHandler> turretsToTrack = gameManager.PlayerShip.GetControllableTurrets();
+        List<TurretHandler> turretsToTrack = GameManager.Instance.PlayerShip.GetControllableTurrets();
         for (int i = 0; i < turretsToTrack.Count; i++)
         {
             GameObject turretStatusCircle = Instantiate(turretStatusCirclePrefab, this.transform);

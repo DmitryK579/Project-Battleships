@@ -55,11 +55,13 @@ public class TurretHandler : MonoBehaviour
 		if (initialLocalAngle > 180) 
 			initialLocalAngle -= 360f;
 
+		GameManager.Instance.OnCountdownEnd += NoLongerIdle;
 		SubscribeToEvents();
 	}
 
 	private void OnDisable()
 	{
+		GameManager.Instance.OnCountdownEnd -= NoLongerIdle;
 		UnsubscribeFromEvents();
 	}
 
@@ -80,6 +82,10 @@ public class TurretHandler : MonoBehaviour
 	// Update is called once per frame
 	private void Update()
     {
+		if (GameManager.Instance.GetGameState() != GameManager.GameState.Playing &&
+			GameManager.Instance.GetGameState() != GameManager.GameState.BattleEnd)
+			return;
+
 		RotateTurret();
 		DrawLine();
 		if (isSimulationEnabled)
@@ -251,7 +257,8 @@ public class TurretHandler : MonoBehaviour
 		currentTurretController = controller;
 		SubscribeToEvents();
 		isSimulationEnabled = true;
-		idle = false;
+		if (GameManager.Instance.GetGameState() == GameManager.GameState.Playing)
+			idle = false;
 	}
 
 	public void ResetControllerToOwnCPU()

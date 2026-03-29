@@ -4,7 +4,6 @@ using UnityEngine;
 public class CPULogic : MonoBehaviour
 {
 	[Header("Scripts")]
-	[SerializeField] private GameManager gameManager;
     [SerializeField] private CPUShipController shipController;
     [SerializeField] private CPUTurretController turretController;
     [SerializeField] private ShipHandler ownShip;
@@ -27,7 +26,7 @@ public class CPULogic : MonoBehaviour
         MoveToTarget,
     }
 
-    private MovementStates movementState = MovementStates.MoveToTarget;
+    private MovementStates movementState = MovementStates.Idle;
 
     private enum TurretStates
     {
@@ -65,7 +64,7 @@ public class CPULogic : MonoBehaviour
 	{
 		decisionTimer = Random.Range(maxDecisionCooldownS, maxDecisionCooldownS);
 
-		List<ShipHandler> validTargets = gameManager.GetTargetShips(ownShip);
+		List<ShipHandler> validTargets = GameManager.Instance.GetTargetShips(ownShip);
 		float closestDitanceToTarget = 0;
 		foreach (ShipHandler target in validTargets)
 		{

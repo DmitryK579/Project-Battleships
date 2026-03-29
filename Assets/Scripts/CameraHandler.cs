@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class CameraHandler : MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager;
     [SerializeField] private Transform anchorObject;
     [Header("Camera settings")]
     [SerializeField] private float zoomSpeed = 20f;
@@ -22,19 +21,19 @@ public class CameraHandler : MonoBehaviour
 		PlayerInputContainer.Instance.playerInputActions.Camera.Enable();
 		cam = GetComponent<CinemachineCamera>();
 
-        gameManager.OnPlayerShipSwap += OnPlayerShipSwap;
-        anchorObject = gameManager.PlayerShip.transform;
+        GameManager.Instance.OnPlayerShipSwap += OnPlayerShipSwap;
+        anchorObject = GameManager.Instance.PlayerShip.transform;
 	}
 
 	private void OnPlayerShipSwap(object sender, EventArgs e)
 	{
-        anchorObject = gameManager.PlayerShip.transform;
+        anchorObject = GameManager.Instance.PlayerShip.transform;
 	}
 
 	private void OnDisable()
 	{
 		PlayerInputContainer.Instance.playerInputActions.Camera.Disable();
-		gameManager.OnPlayerShipSwap -= OnPlayerShipSwap;
+		GameManager.Instance.OnPlayerShipSwap -= OnPlayerShipSwap;
 	}
 
 	// Update is called once per frame

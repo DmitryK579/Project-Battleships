@@ -42,11 +42,19 @@ public class ShipHandler : MonoBehaviour, IDamagable, IShellBlocker
     // Update is called once per frame
     void Update()
     {
+		if (GameManager.Instance.GetGameState() != GameManager.GameState.Playing &&
+			GameManager.Instance.GetGameState() != GameManager.GameState.BattleEnd)
+			return;
+
 		shipMovementVector = currentShipController.GetMovementInput();
 	}
 
 	void FixedUpdate()
 	{
+		if (GameManager.Instance.GetGameState() != GameManager.GameState.Playing &&
+			GameManager.Instance.GetGameState() != GameManager.GameState.BattleEnd)
+			return;
+
 		ApplyEngineForce();
 		ApplyShipRotation();
 		HandleDrift();

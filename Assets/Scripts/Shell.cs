@@ -26,9 +26,12 @@ public class Shell : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+		if (GameManager.Instance.GetGameState() != GameManager.GameState.Playing && 
+			GameManager.Instance.GetGameState() != GameManager.GameState.BattleEnd)
+			return;
+
 		ArmShell();
 		Move();
-
 	}
 
 	private void Move()
