@@ -88,11 +88,14 @@ public class GameManager : MonoBehaviour
     private int teamADestroyed = 0;
     private int teamBDestroyed = 0;
     private bool playerTeamWon = false;
+    private bool isPaused = false;
 
     public event EventHandler OnPlayerShipSwap;
     public event EventHandler OnCountdownBegin;
     public event EventHandler OnCountdownEnd;
     public event EventHandler OnBattleEnd;
+    public event EventHandler OnPause;
+    public event EventHandler OnUnPause;
 
 	private void Awake()
 	{
@@ -104,6 +107,7 @@ public class GameManager : MonoBehaviour
     {
 		PlayerInputContainer.Instance.playerInputActions.GameManager.Enable();
         PlayerInputContainer.Instance.playerInputActions.GameManager.SwapShip.performed += OnSwapShipPerformed;
+        PlayerInputContainer.Instance.playerInputActions.GameManager.Pause.performed += OnPausePerformed;
 
         if (enablePlayer)
         {
@@ -139,6 +143,7 @@ public class GameManager : MonoBehaviour
 	{
 		PlayerInputContainer.Instance.playerInputActions.GameManager.Disable();
 		PlayerInputContainer.Instance.playerInputActions.GameManager.SwapShip.performed -= OnSwapShipPerformed;
+		PlayerInputContainer.Instance.playerInputActions.GameManager.Pause.performed -= OnPausePerformed;
 
         if (PlayerShip != null)
         {
@@ -244,7 +249,34 @@ public class GameManager : MonoBehaviour
         SwapPlayerShip();
 	}
 
-    private void SwapPlayerShip()
+	private void OnPausePerformed(InputAction.CallbackContext context)
+	{
+		if (!isPaused)
+            PauseGame();
+        else
+            UnPauseGame();
+	}
+
+    private void PauseGame()
+    {
+		Time.timeScale = 0f;
+		isPaused = true;
+		OnPause?.Invoke(this, EventArgs.Empty);
+	}
+
+    private void UnPauseGame()
+    {
+		Time.timeScale = 1f;
+		isPaused = false;
+		OnUnPause?.Invoke(this, EventArgs.Empty);
+	}
+
+    public void ForceUnPause()
+    {
+        UnPauseGame();
+    }
+
+	private void SwapPlayerShip()
     {
 		int nextIndex = GetNextValidShipIndex();
 		if (nextIndex == playerShipIndex)

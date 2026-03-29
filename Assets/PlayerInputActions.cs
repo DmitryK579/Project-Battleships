@@ -270,6 +270,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""67ff2e92-e1f2-4697-8f2d-9a2499cd480f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -281,6 +290,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SwapShip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f835dd62-fec4-46ab-bd74-8a4d3913536e"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e910eca8-6179-4aeb-b3db-91299da15931"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -302,6 +333,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // GameManager
         m_GameManager = asset.FindActionMap("GameManager", throwIfNotFound: true);
         m_GameManager_SwapShip = m_GameManager.FindAction("SwapShip", throwIfNotFound: true);
+        m_GameManager_Pause = m_GameManager.FindAction("Pause", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -685,6 +717,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_GameManager;
     private List<IGameManagerActions> m_GameManagerActionsCallbackInterfaces = new List<IGameManagerActions>();
     private readonly InputAction m_GameManager_SwapShip;
+    private readonly InputAction m_GameManager_Pause;
     /// <summary>
     /// Provides access to input actions defined in input action map "GameManager".
     /// </summary>
@@ -700,6 +733,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "GameManager/SwapShip".
         /// </summary>
         public InputAction @SwapShip => m_Wrapper.m_GameManager_SwapShip;
+        /// <summary>
+        /// Provides access to the underlying input action "GameManager/Pause".
+        /// </summary>
+        public InputAction @Pause => m_Wrapper.m_GameManager_Pause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -729,6 +766,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SwapShip.started += instance.OnSwapShip;
             @SwapShip.performed += instance.OnSwapShip;
             @SwapShip.canceled += instance.OnSwapShip;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         /// <summary>
@@ -743,6 +783,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SwapShip.started -= instance.OnSwapShip;
             @SwapShip.performed -= instance.OnSwapShip;
             @SwapShip.canceled -= instance.OnSwapShip;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         /// <summary>
@@ -842,5 +885,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwapShip(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPause(InputAction.CallbackContext context);
     }
 }
